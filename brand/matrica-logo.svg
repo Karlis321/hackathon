@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 80" width="360" height="80">
+  <g transform="translate(8 8)">
+    <g stroke="#3E4C56" stroke-width="1.6" stroke-linecap="round"><path d="M8 0V64M32 0V64M56 0V64M0 8H64M0 32H64M0 56H64"/></g>
+    <path d="M8 56V8L32 32L56 8V56" fill="none" stroke="#FF7A1A" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+    <g fill="#E9EDEF"><circle cx="8" cy="8" r="2.8"/><circle cx="32" cy="32" r="2.8"/><circle cx="56" cy="8" r="2.8"/><circle cx="8" cy="56" r="2.8"/><circle cx="56" cy="56" r="2.8"/></g>
+  </g>
+  <text x="96" y="55" font-family="Archivo, 'Arial Narrow', Arial, sans-serif" font-weight="800" font-size="40" letter-spacing="6" fill="#E9EDEF">MATRICA</text>
+</svg>
