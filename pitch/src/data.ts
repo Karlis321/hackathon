@@ -109,8 +109,11 @@ export const SOURCES = [
 
 export const CREDITS = [
   ["Cable scrap pile", "GeorgHH, CC BY-SA 4.0, Wikimedia Commons: Elektrokabelschrott 0109.jpg"],
-  ["Substation before/after", "Tiia Monto, CC BY-SA 4.0, Wikimedia Commons: Milovice - transformer station.jpg. The after image adds a shield drawn by Matrica (concept) and is shared under CC BY-SA 4.0."],
+  ["Substation before/after", "Tiia Monto, CC BY-SA 4.0, Wikimedia Commons: Milovice - transformer station.jpg. The after image is an AI edit with Qwen-Image-Edit, shared under CC BY-SA 4.0."],
   ["110/20 kV transformer", "Kreuzschnabel, CC BY-SA 3.0, Wikimedia Commons: Transformer 110 kV 20 kV.jpg"],
+  ["Storm damage, Arlington", "Arlington County, CC BY-SA 2.0, Wikimedia Commons: Storm Downed power lines and trees from Storm Sandy (8138919297).jpg"],
+  ["Gabion wall", "Encik Tekateki, CC0, Wikimedia Commons: Gabion Wall.jpg"],
+  ["Hydraulic cable cutter", "S.J. de Waard, CC BY-SA 3.0, Wikimedia Commons: Cable cutting device.JPG"],
   ["Country outlines", "mledoze/countries (GitHub), ODbL, from Natural Earth"],
   ["Company logos", "Wikimedia Commons and the companies' own websites. Logos belong to their owners."],
   ["Explainer video", "Matrica, made with Remotion (github.com/remotion-dev/remotion)"],

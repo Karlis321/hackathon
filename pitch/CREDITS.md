@@ -4,9 +4,13 @@
 | Used on | File | Author and licence | Source |
 |---|---|---|---|
 | Problem | `public/img/before-cable-scrap.jpg` | GeorgHH, CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Elektrokabelschrott_0109.jpg |
-| Solution (BEFORE) | `public/img/before-substation.jpg` | Tiia Monto, CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Milovice_-_transformer_station.jpg |
-| Solution (AFTER) | `public/img/after-substation-shield.jpg` | Derived from the photo above: Matrica drew the shield (concept visualisation) with `scripts/make_after.py`. Shared under CC BY-SA 4.0. | same |
+| Before (slide 3) | `public/img/before-substation.jpg` | Tiia Monto, CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Milovice_-_transformer_station.jpg |
+| After (slide 4) | `public/img/after-substation-real.jpg` | AI edit of the photo above with Qwen-Image-Edit (Hugging Face demo Qwen/Qwen-Image-Edit, `scripts/qwen_edit.py`). Shared under CC BY-SA 4.0. | same |
+| Unused backup | `public/img/after-substation-shield.jpg` | Hand-drawn shield over the same photo (`scripts/make_after.py`). | same |
 | Problem | `public/img/transformer-110-20kv.jpg` | Kreuzschnabel, CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Transformer_110_kV_20_kV.jpg |
+| Problem, Storms | `public/img/storm-before.jpg` | Arlington County, CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Storm_Downed_power_lines_and_trees_from_Storm_Sandy_(8138919297).jpg |
+| Process | `public/img/process-gabion.jpg` | Encik Tekateki, CC0 | https://commons.wikimedia.org/wiki/File:Gabion_Wall.jpg |
+| Process | `public/img/process-cutter.jpg` | S.J. de Waard, CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Cable_cutting_device.JPG |
 
 ## Map data
 Country outlines from [mledoze/countries](https://github.com/mledoze/countries) (ODbL), derived from Natural Earth. Files in `public/data/`.

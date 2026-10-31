@@ -6,3 +6,4 @@ video/out
 pdf-pages
 tsconfig.tsbuildinfo
 .deploy
+__pycache__

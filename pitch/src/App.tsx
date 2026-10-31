@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { APPENDIX, SLIDES, STATIC } from "./slides";
+import { APPENDIX, SLIDES, STATIC } from "./deck";
 
 const ALL = [...SLIDES, APPENDIX];
 const TOTAL = SLIDES.reduce((s, x) => s + x.seconds, 0); // 180

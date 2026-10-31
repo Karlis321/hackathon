@@ -83,3 +83,9 @@ input[type="range"] { width: 100%; accent-color: var(--accent); height: 30px; }
 .kbd { font-family: var(--mono); font-size: 14px; border: 1px solid var(--line); border-radius: 4px; padding: 2px 6px; color: var(--muted); }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* photo labels and process lanes */
+.lbl-photo { position: absolute; top: 18px; left: 18px; font-family: var(--mono); font-size: 20px; letter-spacing: .14em; padding: 6px 12px; background: rgba(0,0,0,.6); }
+.lane-h { display: flex; align-items: center; justify-content: center; background: var(--accent-soft); border: 1px solid var(--accent); font-family: var(--mono); font-size: 18px; letter-spacing: .12em; color: var(--accent); text-align: center; }
+.lane-note { display: flex; align-items: center; }
+.tag { display: inline-block; }
