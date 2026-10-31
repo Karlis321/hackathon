@@ -4,7 +4,7 @@ import { chromium } from "playwright-core";
 import { existsSync, mkdirSync } from "node:fs";
 
 const base = process.argv[2] ?? "http://localhost:4173/";
-const SLIDES = 13; // 12 presented + appendix
+const SLIDES = 15; // 14 presented + appendix
 const exe = [
   "C:/Program Files/Google/Chrome/Application/chrome.exe",
   "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",

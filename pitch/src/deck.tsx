@@ -2,6 +2,8 @@ import { useState, type ReactNode } from "react";
 import { motion } from "framer-motion";
 import { BalticMap, LatticeConcept, LogoTile } from "./components";
 import { ObjectsMap, OBJECT_COUNTS } from "./objectsMap";
+import { PARTS, ProductCage } from "./productCage";
+import { MastBase, StockChart } from "./figures";
 import { COMPANIES, CREDITS, EU_FUNDS, OBJECTS, SOURCES, TEAM } from "./data";
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
@@ -27,11 +29,13 @@ function Takes({ size = 26 }: { size?: number }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap", fontSize: size }}>
       <span className="mono muted" style={{ fontSize: size * 0.7, letterSpacing: ".12em" }}>WE TAKE</span>
-      <span className="chip" style={{ fontSize: size * 0.8, borderColor: "var(--accent)" }}>Cable offcuts</span>
+      <span className="chip" style={{ fontSize: size * 0.8, borderColor: "var(--accent)" }}>AMKA cable</span>
       <span className="mono accent">+</span>
-      <span className="chip" style={{ fontSize: size * 0.8, borderColor: "var(--accent)" }}>Concrete poles</span>
+      <span className="chip" style={{ fontSize: size * 0.8, borderColor: "var(--accent)" }}>Wooden poles</span>
+      <span className="mono accent">+</span>
+      <span className="chip" style={{ fontSize: size * 0.8, borderColor: "var(--accent)" }}>Concrete stubs</span>
       <span className="mono accent">→</span>
-      <span className="chip" style={{ fontSize: size * 0.8, background: "var(--accent)", color: "#11161a", borderColor: "var(--accent)", fontWeight: 600 }}>Shield</span>
+      <span className="chip" style={{ fontSize: size * 0.8, background: "var(--accent)", color: "#11161a", borderColor: "var(--accent)", fontWeight: 600 }}>Drone net</span>
     </div>
   );
 }
@@ -50,11 +54,11 @@ function Photo({ src, label, color = "var(--fg)", credit, children, pos = "50% 5
 function Title() {
   return (
     <div className="slide" style={{ justifyContent: "center" }}>
-      <div style={{ position: "absolute", right: 60, top: 80, opacity: 0.9 }}><LatticeConcept size={760} /></div>
+      <div style={{ position: "absolute", right: 60, top: 120, width: 760, lineHeight: 0, border: "1px solid var(--line)" }}><ProductCage width={760} height={535} callouts={false} /></div>
       <motion.img {...rise(0)} src={asset("brand/matrica-logo.svg")} alt="Matrica" style={{ width: 520, marginBottom: 56 }} />
-      <motion.h1 {...rise(0.15)} style={{ maxWidth: 1050 }}>Grid waste becomes <span className="accent">grid shield</span>.</motion.h1>
-      <motion.p {...rise(0.3)} className="lead" style={{ marginTop: 36, maxWidth: 980 }}>
-        We take the cables and concrete poles grid companies throw away, and build shields around small, critical grid equipment.
+      <motion.h1 {...rise(0.15)} style={{ maxWidth: 900, fontSize: 120 }}>Tīkls no tīkla.</motion.h1>
+      <motion.p {...rise(0.3)} className="lead" style={{ marginTop: 30, maxWidth: 860 }}>
+        A drone net from the grid's own surplus. In Latvian, <i>tīkls</i> means both <b className="accent">net</b> and <b className="accent">grid</b>.
       </motion.p>
       <motion.div {...rise(0.4)} style={{ marginTop: 40 }}><Takes /></motion.div>
       <motion.div {...rise(0.5)} style={{ marginTop: 32, display: "flex", gap: 16 }}>
@@ -67,9 +71,9 @@ function Title() {
 
 function Problem() {
   const items: [string, string, string, string, string][] = [
-    ["1 · Waste", "var(--accent)", IMG.scrap, "Cable offcuts and concrete poles have no second life.", "GeorgHH, CC BY-SA 4.0"],
-    ["2 · Drones", "var(--risk)", IMG.transformer, "Transformers stand in the open. Drones target them.", "Kreuzschnabel, CC BY-SA 3.0"],
-    ["3 · Storms", "var(--steel)", IMG.stormBefore, "Trees fall on lines. Poles break. Power goes out.", "Arlington County, CC BY-SA 2.0"],
+    ["1 · Waste", "var(--accent)", IMG.scrap, "Surplus AMKA cable, wooden poles and concrete stubs pile up.", "GeorgHH, CC BY-SA 4.0"],
+    ["2 · Drones", "var(--risk)", IMG.transformer, "Substations stand in the open. Drones target them.", "Kreuzschnabel, CC BY-SA 3.0"],
+    ["3 · Storms", "var(--steel)", IMG.stormBefore, "Storms and icing bring branches and debris down on the equipment.", "Arlington County, CC BY-SA 2.0"],
   ];
   return (
     <div className="slide">
@@ -105,29 +109,53 @@ function FullPhoto({ src, tag, tagColor, line, sub, credit }: { src: string; tag
 
 const Before = () => <FullPhoto src={IMG.subBefore} tag="Before" tagColor="var(--risk)" line="Today: transformers stand unprotected." credit="Photo: Tiia Monto, CC BY-SA 4.0" />;
 const After = () => (
-  <FullPhoto src={IMG.subAfter} tag="After · with Matrica" tagColor="var(--accent)" line="Reused concrete posts + a net from cables."
-    sub="Crushed concrete forms the base. Same real substation; the shield is an AI visualisation (Qwen-Image-Edit)." credit="Photo: Tiia Monto, CC BY-SA 4.0 · AI edit: Qwen-Image-Edit" />
+  <FullPhoto src={IMG.subAfter} tag="After · with Matrica" tagColor="var(--accent)" line="Masts from reused poles + a woven AMKA net."
+    sub="Same real substation; the net is an AI visualisation (Qwen-Image-Edit). The full structure is on the next slide." credit="Photo: Tiia Monto, CC BY-SA 4.0 · AI edit: Qwen-Image-Edit" />
 );
+
+function Product() {
+  return (
+    <div className="slide" style={{ paddingTop: 72 }}>
+      <div className="eyebrow">The product</div>
+      <motion.h2 {...rise(0)} style={{ fontSize: 56 }}>The structure: six masts, a woven net, a roof.</motion.h2>
+      <div className="row" style={{ marginTop: 22, gap: 28, alignItems: "flex-start" }}>
+        <motion.div {...rise(0.1)} style={{ border: "1px solid var(--line)", lineHeight: 0 }}><ProductCage width={1080} height={760} /></motion.div>
+        <ol className="grow" style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+          {PARTS.map((p, i) => (
+            <motion.li {...rise(0.2 + i * 0.05)} key={p.n} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+              <span className="mono" style={{ flex: "none", width: 34, height: 34, borderRadius: "50%", background: "var(--accent)", color: "#fff", display: "grid", placeItems: "center", fontWeight: 700, fontSize: 17 }}>{p.n}</span>
+              <span><b style={{ fontFamily: "var(--display)", fontSize: 24 }}>{p.h}</b><br /><span className="muted" style={{ fontSize: 18 }}>{p.t}</span></span>
+            </motion.li>
+          ))}
+          <motion.li {...rise(0.7)} className="small" style={{ marginTop: 6, fontSize: 17 }}>20/0.4 kV kiosk · 10 × 8 m enclosure · net ~9 m high on all sides and over the top. The overhead line on the left is where the AMKA comes from.</motion.li>
+        </ol>
+      </div>
+    </div>
+  );
+}
 
 function Weather() {
   return (
     <div className="slide">
       <div className="eyebrow">Storms</div>
-      <motion.h2 {...rise(0)}>The same shield protects lines from storms.</motion.h2>
+      <motion.h2 {...rise(0)}>The net also takes the storm.</motion.h2>
       <div className="row" style={{ marginTop: 40, height: 740, gap: 24 }}>
         <motion.div {...rise(0.1)} className="grow">
           <Photo src={IMG.stormBefore} label="BEFORE" color="var(--risk)" credit="Arlington County, CC BY-SA 2.0">
-            <h3 style={{ fontSize: 36 }}>A tree falls on the line. The pole breaks.</h3>
+            <h3 style={{ fontSize: 36 }}>Today a falling tree hits the equipment directly.</h3>
           </Photo>
         </motion.div>
         <motion.div {...rise(0.25)} className="grow">
           {IMG.stormAfter ? (
             <Photo src={IMG.stormAfter} label="AFTER · VISUALISATION" color="var(--accent)" credit="Same photo · shield visualisation: Matrica">
-              <h3 style={{ fontSize: 36 }}>Concrete poles and a cable net catch the tree. The line stays up.</h3>
+              <h3 style={{ fontSize: 36 }}>Guyed masts and the metal net catch branches before they reach the substation.</h3>
             </Photo>
           ) : (
             <div className="card" style={{ height: "100%", display: "grid", placeItems: "center", textAlign: "center" }}>
-              <h3 style={{ fontSize: 36, maxWidth: 640 }}>Concrete poles and a cable net catch the tree. The line stays up.</h3>
+              <div style={{ maxWidth: 680 }}>
+                <h3 style={{ fontSize: 36 }}>Guyed masts and the metal net catch branches before they reach the substation.</h3>
+                <p className="muted" style={{ fontSize: 24, marginTop: 18 }}>Checked after every storm and icing. Wet snow on the roof net is a known risk to test.</p>
+              </div>
             </div>
           )}
         </motion.div>
@@ -136,15 +164,20 @@ function Weather() {
   );
 }
 
-function NetDiagram() {
-  const n = 9;
+function StepArt({ kind }: { kind: "strand" | "mesh" }) {
   return (
-    <svg viewBox="0 0 300 220" width="100%" height="100%" role="img" aria-label="Cut cables laid in a grid and tied at the crossings">
-      <rect width="300" height="220" fill="#0b1013" />
-      {Array.from({ length: n }).map((_, i) => <line key={`v${i}`} x1={50 + i * 25} y1={20} x2={50 + i * 25} y2={200} stroke="#1c1f22" strokeWidth="5" />)}
-      {Array.from({ length: n }).map((_, i) => <line key={`h${i}`} x1={40} y1={30 + i * 20.5} x2={260} y2={30 + i * 20.5} stroke="#2a2e32" strokeWidth="5" />)}
-      {Array.from({ length: n }).flatMap((_, i) => Array.from({ length: n }).map((__, j) => <circle key={`${i}-${j}`} cx={50 + i * 25} cy={30 + j * 20.5} r="3" fill="#ff7a1a" />))}
-      <text x="150" y="216" fill="#93a1ab" fontFamily="JetBrains Mono, monospace" fontSize="11" textAnchor="middle">ties at every crossing</text>
+    <svg viewBox="0 0 300 180" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" role="img" aria-label={kind === "strand" ? "AMKA core unwound into strands" : "Chain-link mesh panel"}>
+      <rect width="300" height="180" fill="#0b1013" />
+      {kind === "strand" && (<>
+        <g stroke="#1d2125" strokeWidth="16" strokeLinecap="round"><path d="M20 60 C80 40 120 80 170 60" /><path d="M20 90 C80 70 120 110 170 90" /><path d="M20 120 C80 100 120 140 170 120" /></g>
+        {[0, 1, 2, 3, 4, 5, 6].map((i) => <path key={i} d={`M170 ${60 + i * 10} C210 ${50 + i * 12} 240 ${70 + i * 9} 285 ${48 + i * 15}`} stroke="#b9c2c8" strokeWidth="2.5" fill="none" />)}
+        <text x="150" y="168" fill="#93a1ab" fontFamily="JetBrains Mono, monospace" fontSize="11" textAnchor="middle">AMKA core → 2–2.5 mm aluminium strands</text>
+      </>)}
+      {kind === "mesh" && (<>
+        <defs><pattern id="cl" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0H22M0 0V22" stroke="#b9c2c8" strokeWidth="2.2" /></pattern></defs>
+        <rect x="30" y="15" width="240" height="135" fill="url(#cl)" stroke="#ff7a1a" strokeWidth="2" />
+        <text x="150" y="168" fill="#93a1ab" fontFamily="JetBrains Mono, monospace" fontSize="11" textAnchor="middle">chain-link machine · 50 mm mesh panels</text>
+      </>)}
     </svg>
   );
 }
@@ -152,7 +185,7 @@ function NetDiagram() {
 function Process() {
   const card = (n: string, h: string, t: string, media: ReactNode, d: number) => (
     <motion.div {...rise(d)} className="card" style={{ padding: 0, display: "flex", flexDirection: "column", minWidth: 0 }}>
-      <div style={{ height: 180, overflow: "hidden", borderBottom: "1px solid var(--line)" }}>{media}</div>
+      <div style={{ height: 196, overflow: "hidden", borderBottom: "1px solid var(--line)", lineHeight: 0 }}>{media}</div>
       <div style={{ padding: "12px 16px" }}>
         <div className="mono accent" style={{ fontSize: 18 }}>{n}</div>
         <b style={{ fontFamily: "var(--display)", fontSize: 26 }}>{h}</b>
@@ -162,23 +195,20 @@ function Process() {
   );
   const img = (src: string, pos = "50% 50%") => <img src={asset(src)} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: pos, display: "block" }} />;
   return (
-    <div className="slide" style={{ paddingTop: 76 }}>
-      <div className="eyebrow">How it works · two materials</div>
-      <motion.h2 {...rise(0)} style={{ fontSize: 52 }}>Concrete goes to the transformer. Cables become the net.</motion.h2>
-      <div style={{ marginTop: 22, display: "grid", gridTemplateColumns: "150px repeat(4, 1fr)", gap: 14, alignItems: "stretch" }}>
-        <div className="lane-h"><span>CONCRETE<br />POLES</span></div>
-        {card("C1", "Intact poles → posts", "Set 2 m around the transformer.", img(IMG.subAfter, "30% 75%"), 0.1)}
-        {card("C2", "Broken poles → crushed", "Crushed concrete fills a low base wall.", img(IMG.gabion), 0.18)}
-        <div className="card lane-note" style={{ gridColumn: "span 2" }}>
-          <p style={{ fontSize: 24, lineHeight: 1.4 }}>Concrete never goes to the inventory. It goes <b className="accent">straight from the depot to the site</b>: posts stand, rubble fills the wall.</p>
-        </div>
-        <div className="lane-h"><span>CABLES</span></div>
-        {card("A1", "Into the inventory", "Crews throw any offcut into one bin.", img(IMG.scrap), 0.26)}
-        {card("A2", "Cut to one size", "Every cable is cut to 2 m pieces.", img(IMG.cutter, "50% 60%"), 0.34)}
-        {card("A3", "Tie into a net", "2 m pieces laid 10 cm apart both ways, tied at every crossing: a 2 × 2 m panel.", <NetDiagram />, 0.42)}
-        {card("A4", "Hang on the posts", "Panels clip onto overhead-cable ropes between the posts.", img(IMG.subAfter, "40% 65%"), 0.5)}
+    <div className="slide" style={{ paddingTop: 72 }}>
+      <div className="eyebrow">The practical process</div>
+      <motion.h2 {...rise(0)} style={{ fontSize: 50 }}>The workshop makes the net. Crews raise it the way they already work.</motion.h2>
+      <div style={{ marginTop: 20, display: "grid", gridTemplateColumns: "140px repeat(3, 1fr)", gap: 14, alignItems: "stretch" }}>
+        <div className="lane-h"><span>IN THE<br />WORKSHOP</span></div>
+        {card("01", "Sort the AMKA", "Keep long, undamaged lengths for ropes. Strip the rest.", img(IMG.scrap), 0.1)}
+        {card("02", "Unwind the strands", "Each phase core unwinds into aluminium strands of about 2–2.5 mm.", <StepArt kind="strand" />, 0.18)}
+        {card("03", "Weave the net", "A chain-link machine turns the strands into 50 mm mesh panels.", <StepArt kind="mesh" />, 0.26)}
+        <div className="lane-h"><span>ON<br />SITE</span></div>
+        {card("04", "Set the masts", "Stub ~2.2 m into the ground, wooden pole banded on top. Grid crews do this every day.", <MastBase width="100%" height="100%" />, 0.34)}
+        {card("05", "Hang ropes and net", "AMKA around the tops and across the roof, guys at the corners, net laced on.", <ProductCage width={600} height={196} callouts={false} preserve="xMidYMid slice" />, 0.42)}
+        {card("06", "Earth and inspect", "Bond the net to the site's earth. Check it after storms and icing.", img(IMG.subAfter, "35% 70%"), 0.5)}
       </div>
-      <p className="small" style={{ marginTop: 14, fontSize: 15 }}>Photos: GeorgHH (CC BY-SA 4.0), S.J. de Waard (CC BY-SA 3.0), Encik Tekateki (CC0), Tiia Monto (CC BY-SA 4.0) with Matrica visualisation.</p>
+      <p className="small" style={{ marginTop: 12, fontSize: 15 }}>Photos: GeorgHH (CC BY-SA 4.0); Tiia Monto (CC BY-SA 4.0) with AI visualisation. Drawings: Matrica, after the team summary.</p>
     </div>
   );
 }
@@ -187,11 +217,11 @@ function Video() {
   const [ok, setOk] = useState(true);
   return (
     <div className="slide" style={{ paddingTop: 76 }}>
-      <div className="eyebrow">How it works · 30 seconds</div>
-      <motion.h2 {...rise(0)} style={{ fontSize: 60 }}>From bin to shield.</motion.h2>
+      <div className="eyebrow">Drone test · visualisation</div>
+      <motion.h2 {...rise(0)} style={{ fontSize: 60 }}>The drone stops at the net, not at the substation.</motion.h2>
       <motion.div {...rise(0.15)} style={{ marginTop: 30, width: 1440, height: 810, border: "1px solid var(--line)", background: "#0b1013", alignSelf: "center" }}>
         {ok ? (
-          <video src={asset("video/how-it-works.mp4")} autoPlay muted loop playsInline title="Click to pause or play"
+          <video src={asset("video/cage-drone-impact-10s.mp4")} autoPlay muted loop playsInline title="Click to pause or play"
             onClick={(e) => { const v = e.currentTarget; v.paused ? v.play() : v.pause(); }}
             style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", cursor: "pointer" }} onError={() => setOk(false)} />
         ) : <div style={{ display: "grid", placeItems: "center", height: "100%" }}><LatticeConcept size={600} /></div>}
@@ -204,7 +234,7 @@ function Where() {
   return (
     <div className="slide" style={{ paddingTop: 76 }}>
       <div className="eyebrow">Where</div>
-      <motion.h2 {...rise(0)} style={{ fontSize: 60 }}>Every critical object we can protect in Latvia.</motion.h2>
+      <motion.h2 {...rise(0)} style={{ fontSize: 60 }}>Where it can go after the pilot.</motion.h2>
       <div className="row" style={{ marginTop: 24, gap: 30 }}>
         <motion.div {...rise(0.1)} style={{ border: "1px solid var(--line)" }}><ObjectsMap width={1220} height={740} /></motion.div>
         <div className="grow" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -215,68 +245,90 @@ function Where() {
               <span className="mono" style={{ fontSize: 24 }}>{o.n}</span>
             </motion.div>
           ))}
-          <p className="small" style={{ fontSize: 15, marginTop: 6 }}>Points at town level from public sources; exact sites to confirm with AST and Sadales tīkls. Most 110 kV substations have two transformers: ~250–300 in total.</p>
+          <p className="small" style={{ fontSize: 15, marginTop: 6 }}>The pilot is one 20/0.4 kV kiosk substation. These larger critical objects come later. Points at town level from public sources; exact sites to confirm with AST and Sadales tīkls.</p>
         </div>
       </div>
     </div>
   );
 }
 
-function Economics() {
-  const [price, setPrice] = useState(20);
-  const [units, setUnits] = useState(275);
-  const cost = 12;
-  const fmt = (k: number) => (k >= 1000 ? `€${(k / 1000).toFixed(1)}M` : `€${Math.round(k)}k`);
+function Numbers() {
+  const site: [string, string][] = [["6", "masts"], ["~105 m", "AMKA for ropes"], ["~1 km", "AMKA for the net"], ["~390 m²", "net (36 × 8.7 m + 80 m² roof)"], ["~20 km", "aluminium strand"]];
   return (
-    <div className="slide">
-      <div className="eyebrow">Economics</div>
-      <motion.h2 {...rise(0)}>One kit. Clear numbers. <span className="est" style={{ fontSize: 22, verticalAlign: "middle" }}>estimates</span></motion.h2>
-      <div className="row" style={{ marginTop: 50, gap: 30 }}>
-        {[["€10–14k", "our cost per transformer kit"], ["€18–25k", "price per kit"], ["~10%", "yearly inspection contract"], ["~€0", "material cost: it's their waste"]].map(([n, l], i) => (
-          <motion.div {...rise(0.1 + i * 0.1)} className="card grow" key={l}>
-            <div className="big-num" style={{ fontSize: 72, color: i === 1 ? "var(--accent)" : "var(--fg)" }}>{n}</div>
-            <div className="muted" style={{ fontSize: 24, marginTop: 10 }}>{l}</div>
+    <div className="slide" style={{ paddingTop: 72 }}>
+      <div className="eyebrow">The numbers · from the Sadales tīkls stock sheet</div>
+      <motion.h2 {...rise(0)} style={{ fontSize: 56 }}>Poles for hundreds of sites. Cable for one.</motion.h2>
+      <div className="row" style={{ marginTop: 18, gap: 24, alignItems: "flex-start" }}>
+        <motion.div {...rise(0.1)} className="card" style={{ padding: 18 }}><StockChart width={1000} height={330} /></motion.div>
+        <motion.div {...rise(0.2)} className="card grow">
+          <div className="mono small" style={{ letterSpacing: ".1em" }}>CABLE IS THE BOTTLENECK</div>
+          <p style={{ fontSize: 26, marginTop: 12, lineHeight: 1.35 }}>So we start with <b className="accent">one site</b>.</p>
+          <p className="muted" style={{ fontSize: 20, marginTop: 12 }}>The grid already reused 487 stubs, 444 poles and 374 m of AMKA in 2026. We take only the leftover surplus.</p>
+        </motion.div>
+      </div>
+      <div className="row" style={{ marginTop: 20, gap: 24, flex: 1 }}>
+        <motion.div {...rise(0.35)} className="card grow">
+          <div className="mono small" style={{ letterSpacing: ".1em" }}>ONE SITE NEEDS <span className="est" style={{ marginLeft: 8 }}>estimates</span></div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16, marginTop: 16 }}>
+            {site.map(([n, l]) => <div key={l}><div className="big-num" style={{ fontSize: 44 }}>{n}</div><div className="muted" style={{ fontSize: 18, marginTop: 6 }}>{l}</div></div>)}
+          </div>
+        </motion.div>
+        <motion.div {...rise(0.45)} className="card" style={{ width: 600 }}>
+          <div className="mono small" style={{ letterSpacing: ".1em" }}>DOES IT HOLD?</div>
+          <p style={{ fontSize: 25, marginTop: 12, lineHeight: 1.35 }}>A 1 kg FPV drone at 30 m/s carries <b className="accent">~450 J</b>. One 2.5 mm strand holds <b className="accent">~800 N</b>.</p>
+          <p className="muted" style={{ fontSize: 20, marginTop: 8 }}>Test: a 10 kg sandbag dropped from 4.6 m gives the same 450 J on a panel.</p>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+function Clients() {
+  const pick = (names: string[]) => names.map((n) => COMPANIES.find((c) => c.name === n)).filter(Boolean) as typeof COMPANIES;
+  const cols: { h: string; why: string; names: string[] }[] = [
+    { h: "Pilot partner and first user", why: "Owns the kiosk substations and the surplus. Gives material and a site; gets protection and reuse.", names: ["Sadales tīkls"] },
+    { h: "Next users in Latvia", why: "Own critical sites that drones and storms threaten: substations, grid batteries, plants, gas and broadcast.", names: ["AST", "Latvenergo · Elektrum Group", "Conexus Baltic Grid", "Gaso", "LVRTC"] },
+    { h: "Next in the Baltics", why: "Same equipment, same threat, same kind of surplus.", names: ["ESO", "Litgrid", "Elektrilevi", "Elering"] },
+  ];
+  return (
+    <div className="slide" style={{ paddingTop: 76 }}>
+      <div className="eyebrow">Clients · our proposal</div>
+      <motion.h2 {...rise(0)} style={{ fontSize: 58 }}>Who uses it, and why they'd pay.</motion.h2>
+      <div className="row" style={{ marginTop: 32, gap: 24, alignItems: "stretch" }}>
+        {cols.map((c, i) => (
+          <motion.div {...rise(0.1 + i * 0.12)} className="card grow" key={c.h} style={{ borderTop: `4px solid ${i === 0 ? "var(--accent)" : "var(--steel)"}`, display: "flex", flexDirection: "column", gap: 16 }}>
+            <h3 style={{ fontSize: 34, color: i === 0 ? "var(--accent)" : "var(--fg)" }}>{c.h}</h3>
+            <p className="muted" style={{ fontSize: 22, lineHeight: 1.35 }}>{c.why}</p>
+            <div style={{ display: "grid", gridTemplateColumns: i === 0 ? "1fr" : "1fr 1fr", gap: 10, marginTop: "auto" }}>
+              {pick(c.names).map((co) => <LogoTile key={co.name} c={co} height={i === 0 ? 120 : 76} />)}
+            </div>
           </motion.div>
         ))}
       </div>
-      <motion.div {...rise(0.5)} className="row" style={{ marginTop: 34, gap: 30, flex: 1 }}>
-        <div className="card grow" style={{ display: "flex", flexDirection: "column", gap: 22 }}>
-          <div className="mono small" style={{ letterSpacing: ".1em" }}>TRY IT · MARKET MODEL</div>
-          <label style={{ fontSize: 24 }}>Price per kit: <b className="mono accent">€{price}k</b>
-            <input type="range" min={15} max={30} step={1} value={price} onChange={(e) => setPrice(+e.target.value)} onKeyDown={(e) => e.stopPropagation()} />
-          </label>
-          <label style={{ fontSize: 24 }}>Transformers protected: <b className="mono accent">{units}</b>
-            <input type="range" min={10} max={900} step={5} value={units} onChange={(e) => setUnits(+e.target.value)} onKeyDown={(e) => e.stopPropagation()} />
-          </label>
-          <p className="small">Latvia ≈ 250–300 transformers. Baltics ≈ 3× that. Cost assumed €12k per kit.</p>
-        </div>
-        <div className="card" style={{ width: 760, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, alignContent: "center" }}>
-          <div><div className="big-num">{fmt(price * units)}</div><div className="muted" style={{ fontSize: 22 }}>kit revenue</div></div>
-          <div><div className="big-num" style={{ color: "var(--ok)" }}>{fmt((price - cost) * units)}</div><div className="muted" style={{ fontSize: 22 }}>gross margin</div></div>
-          <div><div className="big-num" style={{ fontSize: 64 }}>{fmt(price * units * 0.1)}</div><div className="muted" style={{ fontSize: 22 }}>service per year</div></div>
-          <div><div className="big-num" style={{ fontSize: 64, color: "var(--steel)" }}>↓</div><div className="muted" style={{ fontSize: 22 }}>disposal cost for the grid company</div></div>
-        </div>
+      <motion.div {...rise(0.5)} className="card" style={{ marginTop: 24 }}>
+        <p style={{ fontSize: 24, lineHeight: 1.4 }}><b className="accent">Why they pay:</b> material from their own surplus, crews that already know the work, a metal net propellers can't cut, and a resilience measure the EU CER Directive asks critical entities to take.</p>
       </motion.div>
+      <p className="small" style={{ marginTop: 12, fontSize: 15 }}>The team summary names no client; this is our proposal. No agreements yet. Logos belong to their owners.</p>
     </div>
   );
 }
 
 function Practical() {
   const cols: [string, string, string[]][] = [
-    ["Safe", "var(--ok)", ["Earthed net", "Outside the 110 kV clearance zone", "Built under the site's work permit"]],
-    ["Honest limits", "var(--warn)", ["Stops FPV and small drones, debris and falling branches", "Does not stop Shahed-class drones or missiles", "Version 1 covers the sides"]],
-    ["Pilot", "var(--accent)", ["2–5 transformers in Latgale", "With Sadales tīkls", "Measure cost, time, tonnes reused and winter performance"]],
+    ["Safe", "var(--ok)", ["Net bonded to earth", "Clear of live parts", "Far enough that a blast in the net can't reach equipment"]],
+    ["Honest limits", "var(--warn)", ["Stops FPV and small multirotors, not large one-way attack drones", "Wet snow can bridge the mesh and load the roof", "AMKA strands may crack in the weaving machine"]],
+    ["Pilot", "var(--accent)", ["One 20/0.4 kV kiosk site", "Weave test samples, then a sandbag test", "An agreed limit on how much surplus we take"]],
   ];
   return (
     <div className="slide">
       <div className="eyebrow">Practical</div>
-      <motion.h2 {...rise(0)}>Built with what crews already know.</motion.h2>
+      <motion.h2 {...rise(0)}>A concept, tested before it goes near live equipment.</motion.h2>
       <div className="row" style={{ marginTop: 56, gap: 30, flex: 1 }}>
         {cols.map(([h, color, items], i) => (
           <motion.div {...rise(0.15 + i * 0.12)} className="card grow" key={h} style={{ borderTop: `4px solid ${color}` }}>
             <h3 style={{ fontSize: 52, color }}>{h}</h3>
             <ul style={{ margin: "36px 0 0", padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 28 }}>
-              {items.map((t) => <li key={t} style={{ fontSize: 34, lineHeight: 1.25 }}>{t}</li>)}
+              {items.map((t) => <li key={t} style={{ fontSize: 30, lineHeight: 1.25 }}>{t}</li>)}
             </ul>
           </motion.div>
         ))}
@@ -319,11 +371,11 @@ function Future() {
         <div style={{ width: 760, display: "flex", flexDirection: "column" }}>
           <motion.h2 {...rise(0)} style={{ fontSize: 72 }}>A Baltic take-back network.</motion.h2>
           <motion.p {...rise(0.15)} className="lead" style={{ marginTop: 28, fontSize: 30 }}>
-            Three hubs. Every grid, telecom and renewables company as a supplier. Each country's waste protects its own grid.
+            Once the pilot works: three hubs, every grid company's surplus as material, each country's surplus protecting its own grid.
           </motion.p>
           <motion.div {...rise(0.35)} className="card" style={{ marginTop: "auto", borderColor: "var(--accent)", background: "var(--accent-soft)" }}>
             <div className="mono" style={{ fontSize: 20, letterSpacing: ".12em", color: "var(--accent)" }}>OUR ASK</div>
-            <h3 style={{ fontSize: 48, marginTop: 10 }}>A pilot with Sadales tīkls on 2–5 transformers.</h3>
+            <h3 style={{ fontSize: 46, marginTop: 10 }}>A one-site pilot with Sadales tīkls, and an agreed share of the surplus.</h3>
           </motion.div>
           {TEAM.members.length > 0 && (
             <motion.p {...rise(0.5)} className="muted" style={{ marginTop: 24, fontSize: 24 }}>
@@ -349,12 +401,12 @@ function Appendix() {
             <thead><tr>{["Object", "Owner", "Crit", "Fit", "Exp", "Vol", "Safe", "Pay", "/60"].map((h) => <th key={h} style={{ textAlign: "left", padding: "6px 8px", borderBottom: "1px solid var(--line)", fontFamily: "var(--mono)", fontSize: 14, color: "var(--muted)" }}>{h}</th>)}</tr></thead>
             <tbody>{rows.map(({ o, t }) => <tr key={o[0]}>{[o[0], o[1], o[2], o[3], o[4], o[5], o[6], o[7], t].map((v, i) => <td key={i} style={{ padding: "6px 8px", borderBottom: "1px solid var(--line)", fontFamily: i > 1 ? "var(--mono)" : undefined }}>{v}</td>)}</tr>)}</tbody>
           </table>
-          <h3 style={{ marginTop: 30 }}>Assumptions behind the economics</h3>
+          <h3 style={{ marginTop: 30 }}>Assumptions behind the numbers</h3>
           <ul style={{ fontSize: 20, lineHeight: 1.5, color: "var(--muted)" }}>
-            <li>Kit for one 110/20 kV transformer: ~14 concrete posts, ~180 m² of cable net, ~120 m AMKA rope, ~10 m³ crushed-concrete wall.</li>
-            <li>Cost €10–14k: baskets and earthing €2–3k, cable cutting and tying €2–3k, installation 3 people × 4 days €4–5k, engineering and transport €2–3k.</li>
-            <li>Price €18–25k and a yearly service at ~10% are hypotheses to validate with Sadales tīkls.</li>
-            <li>~250–300 transformers in Latvia (most 110 kV substations have two). To confirm with AST and Sadales tīkls.</li>
+            <li>Only the stock figures come from the Sadales tīkls sheet: 880 stubs, 1,500 poles, 1,116 m AMKA (reused in 2026: 487, 444, 374 m).</li>
+            <li>One site: 20/0.4 kV kiosk, 10 × 8 m enclosure, 6 masts, ~105 m AMKA ropes, ~1,000 m AMKA for the net, ~390 m² of net, ~20 km of strand (~50 m per m²).</li>
+            <li>Impact: 1 kg FPV at 30 m/s ≈ 450 J; one 2.5 mm strand ≈ 800 N; test with a 10 kg sandbag from 4.6 m.</li>
+            <li>A hackathon concept, not a design: an engineer and tests must verify it before anything is built near live equipment.</li>
           </ul>
         </div>
         <div style={{ width: 640 }}>
@@ -370,29 +422,33 @@ function Appendix() {
 
 export const SLIDES: SlideDef[] = [
   { id: "title", title: "Title", seconds: 8, render: () => <Title />,
-    notes: "Hi, we're Matrica. We take the cables and concrete poles that Sadales tīkls throws away, and turn them into shields for the grid itself." },
-  { id: "problem", title: "Three problems", seconds: 22, render: () => <Problem />,
-    notes: "Three problems meet in the same place. One: waste. Cable offcuts and concrete poles have no second life. Two: drones. Transformers stand in the open, and drones target them. Three: storms. Trees fall on lines, poles break, and the power goes out." },
+    notes: "Hi, we're Matrica. Tīkls no tīkla: a drone net from the grid's own surplus. In Latvian, tīkls means both net and grid." },
+  { id: "problem", title: "Three problems", seconds: 20, render: () => <Problem />,
+    notes: "Three problems meet in one place. Surplus: AMKA cable, wooden poles and concrete stubs pile up. Drones: substations stand in the open. Storms: branches and debris come down on the equipment." },
   { id: "before", title: "Before", seconds: 8, render: () => <Before />,
     notes: "This is a real substation today. Nothing stands between a drone and the transformer." },
-  { id: "after", title: "After", seconds: 14, render: () => <After />,
-    notes: "And this is the same substation with our shield: reused concrete poles as posts, a net made from cable offcuts, and crushed concrete as the base wall." },
-  { id: "weather", title: "Storms", seconds: 16, render: () => <Weather />,
-    notes: "The same idea protects lines from storms. Today a falling tree breaks the pole and takes the line down. With concrete poles and a cable net, the net catches the tree and the line stays up." },
-  { id: "process", title: "Process", seconds: 25, render: () => <Process />,
-    notes: "There are two materials. Concrete goes straight to the site: intact poles become posts, broken ones are crushed into the base wall. Cables go to our inventory: crews just throw them in one bin. We cut every cable to one size, two metres, lay them ten centimetres apart both ways, tie every crossing, and hang the panels between the posts." },
+  { id: "after", title: "After", seconds: 11, render: () => <After />,
+    notes: "And this is the idea on the same substation: masts from reused poles and a woven AMKA net." },
+  { id: "product", title: "The product", seconds: 14, render: () => <Product />,
+    notes: "Here's the structure. Six masts: old wooden poles banded to concrete stubs. AMKA cable as the top ropes. A wall net woven from AMKA strands, about nine metres high, and a roof net against diving drones. A gate for service vehicles, guy wires at every corner. A ten by eight metre enclosure around a kiosk substation." },
+  { id: "weather", title: "Storms", seconds: 14, render: () => <Weather />,
+    notes: "The net also takes the storm. Today a falling tree hits the equipment. With guyed masts and a metal net, branches are caught first." },
+  { id: "process", title: "Process", seconds: 22, render: () => <Process />,
+    notes: "In the workshop: sort the AMKA, keep long pieces for ropes, unwind each core into two-millimetre strands, weave fifty-millimetre mesh. On site: set the stub two metres into the ground and band the pole on top, exactly as crews do every day. Then ropes, net, earthing." },
   { id: "video", title: "Video", seconds: 12, render: () => <Video />,
-    notes: "Here's the whole flow in thirty seconds. [Let it play while you speak.] One kit per transformer, three people, about four days." },
-  { id: "where", title: "Where", seconds: 15, render: () => <Where />,
-    notes: "These are the critical objects we can protect in Latvia: over thirty substations, the grid batteries, hydro and heat plants, gas storage, broadcast and airport equipment. We start in Latgale, next to the border." },
-  { id: "economics", title: "Economics", seconds: 25, render: () => <Economics />,
-    notes: "Our numbers are estimates we'll confirm with Sadales tīkls. A kit costs us ten to fourteen thousand euros and sells for eighteen to twenty-five, plus a yearly inspection contract. Latvia has around 250 to 300 transformers: five to six million euros. The Baltics are about three times that." },
+    notes: "Here's what happens when a drone hits. [Let it play.] It detonates on the net. The masts hold and the substation is untouched." },
+  { id: "where", title: "Where", seconds: 11, render: () => <Where />,
+    notes: "After the pilot, these are the critical objects in Latvia the idea can grow to, starting in Latgale near the border." },
+  { id: "numbers", title: "The numbers", seconds: 18, render: () => <Numbers />,
+    notes: "From the Sadales tīkls stock sheet: enough stubs and poles for hundreds of sites, but AMKA for just one net. Cable is the bottleneck, so we start with one site. It holds: a drone brings about 450 joules; one strand holds 800 newtons. We'll prove it with a sandbag test." },
+  { id: "clients", title: "Clients", seconds: 12, render: () => <Clients />,
+    notes: "Who uses it: Sadales tīkls first, as pilot partner and material owner. Then AST, Latvenergo, gas and broadcast operators, and the Baltic grids. They pay because the material is their own surplus and their crews already know the work." },
   { id: "practical", title: "Practical", seconds: 10, render: () => <Practical />,
-    notes: "It's safe, earthed and outside the high-voltage zone. It stops small drones and falling branches, not missiles. We propose a pilot in Latgale." },
-  { id: "partners", title: "Partners", seconds: 12, render: () => <Partners />,
-    notes: "These are the companies we'll work with: grid operators as suppliers and buyers, contractors to install, recyclers for what's left. European programmes fund the scale-up. No agreements yet; that's our next step." },
+    notes: "It's earthed, clear of live parts, and far enough that a blast can't reach equipment. It stops small drones, not large attack drones, and wet snow is a risk. So: one site, test samples and a sandbag test first." },
+  { id: "partners", title: "Partners", seconds: 7, render: () => <Partners />,
+    notes: "And these are the delivery partners and funds for scaling up. No agreements yet." },
   { id: "future", title: "Future", seconds: 13, render: () => <Future />,
-    notes: "Our vision: a Baltic take-back network, three hubs, every grid's waste protecting its own grid. Our ask today: a pilot with Sadales tīkls on two to five transformers. Thank you." },
+    notes: "If the pilot works, every grid's surplus can protect its own grid. Our ask today: a one-site pilot with Sadales tīkls. Thank you." },
 ];
 
 export const APPENDIX: SlideDef = { id: "appendix", title: "Appendix", seconds: 0, notes: "Not presented. Sources, credits, assumptions and the full scoring table.", render: () => <Appendix /> };
