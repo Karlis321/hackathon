@@ -96,6 +96,7 @@ function Solution() {
             </motion.div>
           ))}
           <motion.p {...rise(0.7)} style={{ fontSize: 26, lineHeight: 1.4 }}>No stripping. No bending. <span className="accent">Any length, any size.</span></motion.p>
+          <motion.p {...rise(0.8)} style={{ fontSize: 24, lineHeight: 1.4, color: "var(--steel)" }}>Built for Baltic weather: wind, ice, snow, rain and sun.</motion.p>
         </div>
       </div>
     </div>
@@ -223,19 +224,20 @@ function Economics() {
 function Practical() {
   const cols: [string, string, string[]][] = [
     ["Safe", "var(--ok)", ["Earthed lattice", "Outside the 110 kV clearance zone", "Built under the site's work permit"]],
+    ["Weatherproof", "var(--steel)", ["Open 10 cm grid: low wind load, snow falls through", "Concrete posts carry ice on the cables", "Outdoor cable sheaths: UV- and rain-proof, no rust", "Checked after every storm"]],
     ["Honest limits", "var(--warn)", ["Stops FPV and small drones, debris", "Does not stop Shahed-class drones or missiles", "Version 1 covers the sides"]],
-    ["Pilot", "var(--accent)", ["2–5 transformers in Latgale", "With Sadales tīkls", "Measure cost, time and tonnes reused"]],
+    ["Pilot", "var(--accent)", ["2–5 transformers in Latgale", "With Sadales tīkls", "Measure cost, time, tonnes reused and winter performance"]],
   ];
   return (
     <div className="slide">
       <div className="eyebrow">Practical</div>
-      <motion.h2 {...rise(0)}>Built with what crews already know.</motion.h2>
+      <motion.h2 {...rise(0)}>Safe, weatherproof, built with what crews know.</motion.h2>
       <div className="row" style={{ marginTop: 56, gap: 30, flex: 1 }}>
         {cols.map(([h, color, items], i) => (
           <motion.div {...rise(0.15 + i * 0.12)} className="card grow" key={h} style={{ borderTop: `4px solid ${color}` }}>
-            <h3 style={{ fontSize: 56, color }}>{h}</h3>
-            <ul style={{ margin: "40px 0 0", padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 34 }}>
-              {items.map((t) => <li key={t} style={{ fontSize: 38, lineHeight: 1.25 }}>{t}</li>)}
+            <h3 style={{ fontSize: 46, color }}>{h}</h3>
+            <ul style={{ margin: "34px 0 0", padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 26 }}>
+              {items.map((t) => <li key={t} style={{ fontSize: 30, lineHeight: 1.28 }}>{t}</li>)}
             </ul>
           </motion.div>
         ))}
@@ -343,7 +345,7 @@ export const SLIDES: SlideDef[] = [
   { id: "economics", title: "Economics", seconds: 30, render: () => <Economics />,
     notes: "Our numbers are estimates we'll confirm with Sadales tīkls. A kit costs us ten to fourteen thousand euros and sells for eighteen to twenty-five, plus a yearly inspection contract. Latvia alone has around 250 to 300 transformers: five to six million euros. The Baltics are about three times that. And Sadales tīkls pays less to get rid of its waste." },
   { id: "practical", title: "Practical", seconds: 15, render: () => <Practical />,
-    notes: "It's practical and safe: the lattice is earthed and stays outside the high-voltage zone. It stops FPV drones and debris, not missiles, and we say that openly. We propose a pilot on two to five transformers in Latgale." },
+    notes: "It's safe: the lattice is earthed and stays outside the high-voltage zone. And it's weatherproof: the open grid lets wind and snow through, concrete posts carry the ice, and outdoor cable sheaths don't rust. It stops FPV drones and debris, not missiles. We propose a pilot in Latgale." },
   { id: "partners", title: "Partners", seconds: 15, render: () => <Partners />,
     notes: "These are the companies we'll work with: grid operators as suppliers and buyers, contractors to install, recyclers for what's left. European programmes like LIFE, Horizon Europe and the EIC fund the scale-up. No agreements yet; that's our next step." },
   { id: "future", title: "Future", seconds: 10, render: () => <Future />,
