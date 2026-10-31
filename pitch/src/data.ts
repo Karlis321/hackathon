@@ -109,7 +109,7 @@ export const SOURCES = [
 
 export const CREDITS = [
   ["Cable scrap pile", "GeorgHH, CC BY-SA 4.0, Wikimedia Commons: Elektrokabelschrott 0109.jpg"],
-  ["Anti-drone meshes in Zaporizhzhia, 28 Aug 2026", "Zaporizhzhia Regional State Administration, CC BY 4.0, Wikimedia Commons (cropped)"],
+  ["Substation before/after", "Tiia Monto, CC BY-SA 4.0, Wikimedia Commons: Milovice - transformer station.jpg. The after image adds a shield drawn by Matrica (concept) and is shared under CC BY-SA 4.0."],
   ["110/20 kV transformer", "Kreuzschnabel, CC BY-SA 3.0, Wikimedia Commons: Transformer 110 kV 20 kV.jpg"],
   ["Country outlines", "mledoze/countries (GitHub), ODbL, from Natural Earth"],
   ["Company logos", "Wikimedia Commons and the companies' own websites. Logos belong to their owners."],

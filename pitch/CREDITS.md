@@ -3,8 +3,9 @@
 ## Photos
 | Used on | File | Author and licence | Source |
 |---|---|---|---|
-| Problem, Solution (BEFORE) | `public/img/before-cable-scrap.jpg` | GeorgHH, CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Elektrokabelschrott_0109.jpg |
-| Solution (AFTER) | `public/img/after-anti-drone-nets.jpg` | Zaporizhzhia Regional State Administration, CC BY 4.0. Cropped to remove the caption band. | https://commons.wikimedia.org/wiki/File:Setup_of_anti-drone_meshes_in_Zaporizhzhia,_2026-08-28_(02).jpg |
+| Problem | `public/img/before-cable-scrap.jpg` | GeorgHH, CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Elektrokabelschrott_0109.jpg |
+| Solution (BEFORE) | `public/img/before-substation.jpg` | Tiia Monto, CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Milovice_-_transformer_station.jpg |
+| Solution (AFTER) | `public/img/after-substation-shield.jpg` | Derived from the photo above: Matrica drew the shield (concept visualisation) with `scripts/make_after.py`. Shared under CC BY-SA 4.0. | same |
 | Problem | `public/img/transformer-110-20kv.jpg` | Kreuzschnabel, CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Transformer_110_kV_20_kV.jpg |
 
 ## Map data

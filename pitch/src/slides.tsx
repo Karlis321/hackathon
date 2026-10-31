@@ -78,10 +78,10 @@ function Solution() {
       <motion.div {...rise(0.08)} style={{ marginTop: 22 }}><Takes size={24} /></motion.div>
       <div className="row" style={{ marginTop: 28, alignItems: "flex-start" }}>
         <motion.div {...rise(0.15)}>
-          <BeforeAfter before={asset("img/before-cable-scrap.jpg")} after={asset("img/after-anti-drone-nets.jpg")} w={980} h={580} />
+          <BeforeAfter before={asset("img/before-substation.jpg")} after={asset("img/after-substation-shield.jpg")} w={980} h={580} />
           <p className="small" style={{ marginTop: 12, maxWidth: 980 }}>
-            Drag the handle. After: anti-drone meshes in Zaporizhzhia, a reference from Ukraine. Matrica builds this kind of screen from grid waste.
-            Photos: GeorgHH, CC BY-SA 4.0 · Zaporizhzhia Regional State Administration, CC BY 4.0.
+            Drag the handle. Same real substation: before, and after with our shield (concept visualisation): concrete posts, a cable grid and a crushed-concrete wall.
+            Photo: Tiia Monto, CC BY-SA 4.0; shield drawn by Matrica.
           </p>
         </motion.div>
         <div className="grow" style={{ display: "flex", flexDirection: "column", gap: 18 }}>
@@ -335,7 +335,7 @@ export const SLIDES: SlideDef[] = [
   { id: "problem", title: "Problem", seconds: 25, render: () => <Problem />,
     notes: "Two problems meet here. First, waste: cable offcuts too short to reuse, and concrete poles that crumble when they come down, with no second life today. Second, threat: drones now target transformers. Ukraine protects substations in layers, and Lithuania is spending over 48 million euros to harden a single substation. Latvia's small sites have nothing." },
   { id: "solution", title: "Solution", seconds: 30, render: () => <Solution />,
-    notes: "Our answer: we take their cables and concrete poles and build a cable lattice. We use whole cables, keep the insulation on, and lay them straight in a ten-centimetre grid, tied at every crossing. Intact concrete poles become the posts, two metres out from the transformer. Crushed concrete fills a low wall. A drone hits the screen, not the transformer. [Drag the slider] From a scrap pile to protection like this, already used in Ukraine." },
+    notes: "Our answer: we take their cables and concrete poles and build a shield. We use whole cables, keep the insulation on, and lay them straight in a ten-centimetre grid, tied at every crossing. Intact concrete poles become the posts, two metres out from the transformer. Crushed concrete fills a low wall. A drone hits the screen, not the transformer. [Drag the slider] Here is a real substation, before and after." },
   { id: "how", title: "How it works", seconds: 25, render: () => <HowItWorks />,
     notes: "For Sadales tīkls crews, nothing changes: they throw offcuts in one bin. We collect, check the metal, sort by thickness, set the posts and build the lattice. No stripping, no weaving, any length. One kit per transformer, installed by three people in about four days." },
   { id: "where", title: "Where", seconds: 20, render: () => <Where />,

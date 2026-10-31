@@ -1,4 +1,4 @@
-import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Easing, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 
 // 30 s explainer, 1920x1080 @ 30 fps. Same colours as the deck.
 const C = { bg: "#0e1215", panel: "#161c21", line: "#2a343c", grid: "#3e4c56", fg: "#e9edef", muted: "#93a1ab", accent: "#ff7a1a", steel: "#6fa8d6", concrete: "#9aa2a8", risk: "#ef6b62" };
@@ -9,7 +9,7 @@ const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 const t = (f: number, a: number, b: number, from = 0, to = 1) => interpolate(f, [a, b], [from, to], { ...clamp, easing: ease });
 
 // scene windows (frames)
-const S = { bin: [0, 120], truck: [120, 220], sort: [220, 340], posts: [340, 470], lattice: [470, 640], drone: [640, 790], end: [790, 900] } as const;
+const S = { bin: [0, 120], truck: [120, 220], sort: [220, 340], posts: [340, 470], lattice: [470, 640], drone: [640, 790], real: [790, 900], end: [900, 1000] } as const;
 
 function Caption({ f, n, text, range }: { f: number; n: number; text: string; range: readonly [number, number] }) {
   const o = Math.min(t(f, range[0], range[0] + 15), 1 - t(f, range[1] - 12, range[1]));
@@ -51,6 +51,7 @@ function Transformer({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
 
 export const HowItWorks = () => {
   const f = useCurrentFrame();
+  const { fps } = useVideoConfig();
 
   // scene 1: cables drop into the bin
   const binFill = t(f, 20, 110, 0.05, 0.8);
@@ -194,9 +195,30 @@ export const HowItWorks = () => {
       <Caption f={f} n={5} text="Straight cables, 10 cm grid, tied at crossings" range={S.lattice} />
       <Caption f={f} n={6} text="The drone hits the screen, 2 m out" range={S.drone} />
 
+      {/* real substation: the shield wipes across the same photo (concept visualisation) */}
+      {f >= S.real[0] - 15 && f < S.end[0] + 15 && (() => {
+        const o = Math.min(t(f, S.real[0] - 15, S.real[0] + 5), 1 - t(f, S.end[0] - 5, S.end[0] + 15));
+        const wipe = t(f, S.real[0] + 20, S.real[1] - 25);
+        const zoom = interpolate(f, [S.real[0], S.real[1]], [1, 1.06], clamp);
+        return (
+          <AbsoluteFill style={{ opacity: o, background: C.bg }}>
+            <AbsoluteFill style={{ transform: `scale(${zoom})` }}>
+              <Img src={staticFile("before-substation.jpg")} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <AbsoluteFill style={{ clipPath: `inset(0 ${100 - wipe * 100}% 0 0)` }}>
+                <Img src={staticFile("after-substation-shield.jpg")} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              </AbsoluteFill>
+              <div style={{ position: "absolute", top: 0, bottom: 0, left: `${wipe * 100}%`, width: 6, background: C.accent, opacity: wipe > 0.01 && wipe < 0.99 ? 1 : 0 }} />
+            </AbsoluteFill>
+            <AbsoluteFill style={{ background: "linear-gradient(transparent 60%, rgba(8,10,12,.85))" }} />
+            <div style={{ position: "absolute", left: 120, top: 90, fontFamily: MONO, fontSize: 28, letterSpacing: 6, color: C.fg, background: "rgba(0,0,0,.55)", padding: "8px 16px" }}>REAL SUBSTATION · SHIELD = CONCEPT</div>
+          </AbsoluteFill>
+        );
+      })()}
+      <Caption f={f} n={7} text="On a real substation" range={S.real} />
+
       {/* end card */}
       <AbsoluteFill style={{ opacity: endO, background: C.bg, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 40 }}>
-        <svg viewBox="0 0 64 64" width={180} height={180}>
+        <svg viewBox="0 0 64 64" width={180} height={180} style={{ transform: `scale(${spring({ frame: f - S.end[0], fps, config: { damping: 12 } })})` }}>
           <g stroke={C.grid} strokeWidth={1.6}><path d="M12 8V56M32 8V56M52 8V56M8 12H56M8 32H56M8 52H56" /></g>
           <path d="M12 52V12L32 32L52 12V52" fill="none" stroke={C.accent} strokeWidth={6} strokeLinejoin="round" strokeLinecap="round" />
         </svg>

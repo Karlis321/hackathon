@@ -20,7 +20,7 @@ export function LogoTile({ c, height = 92 }: { c: Company; height?: number }) {
 
 /* Drag (or click) to move between the BEFORE and AFTER photos */
 export function BeforeAfter({ before, after, w, h }: { before: string; after: string; w: number; h: number }) {
-  const [pos, setPos] = useState(0.5);
+  const [pos, setPos] = useState(0.24); // start left so most of the shield shows
   const ref = useRef<HTMLDivElement>(null);
   const drag = useRef(false);
   const update = (clientX: number) => {
@@ -36,12 +36,12 @@ export function BeforeAfter({ before, after, w, h }: { before: string; after: st
       onPointerMove={(e) => drag.current && update(e.clientX)}
       onPointerUp={() => (drag.current = false)}
     >
-      <img src={after} alt="After: anti-drone meshes protecting a street in Zaporizhzhia" style={{ objectPosition: "50% 30%" }} />
+      <img src={after} alt="After: the same substation with the Matrica shield (concept)" />
       <div style={{ position: "absolute", inset: 0, clipPath: `inset(0 ${100 - pos * 100}% 0 0)` }}>
-        <img src={before} alt="Before: a pile of scrapped cable" />
+        <img src={before} alt="Before: the substation without protection" />
       </div>
-      <span className="lbl" style={{ left: 20 }}>BEFORE · WASTE</span>
-      <span className="lbl" style={{ right: 20, color: "var(--accent)" }}>AFTER · SHIELD</span>
+      <span className="lbl" style={{ left: 20 }}>BEFORE · UNPROTECTED</span>
+      <span className="lbl" style={{ right: 20, color: "var(--accent)" }}>AFTER · MATRICA SHIELD (CONCEPT)</span>
       <div className="handle" style={{ left: `${pos * 100}%` }}>
         <div className="knob">↔</div>
       </div>
