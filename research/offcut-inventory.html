@@ -1,0 +1,314 @@
+<title>Offcut Inbox</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Public+Sans:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: workshop tool. Log form on the left, live totals and kit progress on the right, inventory list below */
+:root{
+  --bg:#f5f6f4; --surface:#ffffff; --fg:#1b2329; --muted:#5a6670; --line:#d5dad9;
+  --accent:#d9620f; --accent-ink:#ffffff; --accent-soft:#fbe7d6;
+  --ok:#2e7d4f; --warn:#b07a0a; --info:#2f6f9f; --bar-bg:#ebeeed;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12171b; --surface:#1a2127; --fg:#e4e8ea; --muted:#9aa6ae; --line:#2c353c;
+  --accent:#f08a3c; --accent-ink:#1b1209; --accent-soft:#3a2617;
+  --ok:#6fcf97; --warn:#e3b341; --info:#6fb0e0; --bar-bg:#262f36; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12171b; --surface:#1a2127; --fg:#e4e8ea; --muted:#9aa6ae; --line:#2c353c;
+  --accent:#f08a3c; --accent-ink:#1b1209; --accent-soft:#3a2617;
+  --ok:#6fcf97; --warn:#e3b341; --info:#6fb0e0; --bar-bg:#262f36; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:1100px;margin:0 auto;padding-block:28px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:24px}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.15;text-wrap:balance}
+h1{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800}
+h2{font-size:1.15rem;font-weight:800;margin-bottom:12px}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.sub{color:var(--muted);max-width:68ch;margin:8px 0 0}
+.note{font-size:.84rem;color:var(--muted)}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+.box{background:var(--surface);border:1px solid var(--line);padding:18px;min-width:0}
+label{display:block;font-weight:600;font-size:.9rem;margin-bottom:6px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+select,input{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);padding:10px 12px;border-radius:4px;width:100%;box-sizing:border-box}
+select:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-family:var(--mono);font-size:.82rem;background:var(--bg);color:var(--fg);border:1px solid var(--line);padding:5px 10px;border-radius:99px;cursor:pointer}
+.chip:hover{border-color:var(--accent)}
+.primary{font:inherit;font-weight:700;background:var(--accent);color:var(--accent-ink);border:0;padding:12px 18px;border-radius:4px;cursor:pointer;width:100%;font-size:1rem}
+.primary:disabled{opacity:.5;cursor:not-allowed}
+.route{margin-top:14px;border-left:3px solid var(--accent);background:var(--accent-soft);padding:12px 14px;font-size:.9rem}
+.route .k{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.route strong{font-family:var(--display)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tile{border:1px solid var(--line);padding:12px;background:var(--bg)}
+.tile .v{font-family:var(--mono);font-size:1.5rem;font-weight:600;font-variant-numeric:tabular-nums}
+.tile .l{font-size:.8rem;color:var(--muted)}
+.progress{margin-top:16px}
+.progress .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px;font-size:.9rem}
+.track{height:10px;background:var(--bar-bg);border-radius:5px;overflow:hidden}
+.fill{height:100%;background:var(--accent);width:0}
+.fill.rope{background:var(--info)}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:640px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pill{display:inline-block;font-family:var(--mono);font-size:.7rem;padding:1px 7px;border-radius:99px;border:1px solid currentColor;white-space:nowrap}
+.p-mesh{color:var(--accent)} .p-rope{color:var(--info)} .p-slat{color:var(--ok)} .p-tie{color:var(--muted)} .p-grid{color:var(--warn)}
+.del{font:inherit;background:none;border:1px solid var(--line);color:var(--muted);border-radius:4px;padding:2px 8px;cursor:pointer}
+.del:hover{color:var(--fg);border-color:var(--fg)}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.banner{font-size:.85rem;padding:8px 12px;border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+.banner.warn{border-color:var(--warn);color:var(--fg)}
+.steps{display:flex;gap:10px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+.steps span{display:flex;gap:6px;align-items:center}
+.steps b{font-family:var(--mono);color:var(--accent)}
+@media (max-width:820px){.grid{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Grid Shield · workshop intake</div>
+    <h1>Offcut Inbox</h1>
+    <p class="sub">For the Grid Shield workshop only. Sadales tīkls crews log nothing: they throw offcuts into one mixed bin, as they do with scrap today, and we swap the full bin for an empty one. At intake, our sorter logs each piece here. The tool decides what it becomes and counts how many protection kits the stock can build.</p>
+    <div class="steps" style="margin-top:10px"><span><b>1</b> Read the type on the sheath</span><span><b>2</b> Measure (or log a bundle with Pieces)</span><span><b>3</b> Add</span></div>
+  </header>
+
+  <div id="status" class="banner">Connecting to the shared inventory…</div>
+
+  <div class="grid">
+    <section class="box" aria-labelledby="logh">
+      <h2 id="logh">Log an offcut</h2>
+      <form id="form" novalidate>
+        <div class="field">
+          <label for="type">Cable type</label>
+          <select id="type" required></select>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="len">Length per piece (m)</label>
+            <input id="len" type="number" min="0.05" step="0.05" inputmode="decimal" placeholder="e.g. 3.5" required>
+          </div>
+          <div class="field">
+            <label for="pcs">Pieces</label>
+            <input id="pcs" type="number" min="1" step="1" value="1" inputmode="numeric">
+          </div>
+        </div>
+        <div class="chips" aria-label="Quick lengths" style="margin:-6px 0 14px">
+          <button type="button" class="chip" data-l="0.5">0.5 m</button>
+          <button type="button" class="chip" data-l="1">1 m</button>
+          <button type="button" class="chip" data-l="2">2 m</button>
+          <button type="button" class="chip" data-l="5">5 m</button>
+          <button type="button" class="chip" data-l="10">10 m</button>
+        </div>
+        <div class="field">
+          <label for="depot">Depot or site <span class="note">(optional)</span></label>
+          <input id="depot" type="text" maxlength="60" placeholder="e.g. Rēzekne depot">
+        </div>
+        <button class="primary" id="add" type="submit">Add to inventory</button>
+        <p id="formmsg" class="note" role="status" style="margin:8px 0 0"></p>
+      </form>
+      <div class="route" id="route" aria-live="polite">
+        <div class="k">What it becomes</div>
+        <div id="routetext">Pick a type and a length to see where this piece goes.</div>
+      </div>
+    </section>
+
+    <section class="box" aria-labelledby="toth">
+      <h2 id="toth">Stock right now</h2>
+      <div class="tiles">
+        <div class="tile"><div class="v" id="t-entries">0</div><div class="l">pieces logged</div></div>
+        <div class="tile"><div class="v" id="t-metres">0 m</div><div class="l">cable logged</div></div>
+        <div class="tile"><div class="v" id="t-panels">0</div><div class="l">1 × 1 m mesh panels</div></div>
+        <div class="tile"><div class="v" id="t-slats">0</div><div class="l">slat bars</div></div>
+        <div class="tile"><div class="v" id="t-rope">0 m</div><div class="l">rope (whole AMKA)</div></div>
+        <div class="tile"><div class="v" id="t-grid">0</div><div class="l">pieces to offer back to the grid</div></div>
+      </div>
+      <div class="progress">
+        <div class="top"><strong>Transformer kits from mesh</strong><span class="note" id="kitnote">0 of 1 kit</span></div>
+        <div class="track"><div class="fill" id="kitbar"></div></div>
+        <p class="note" style="margin:6px 0 0">One kit ≈ 180 panels of mesh (the 40 × 4.5 m side screen).</p>
+      </div>
+      <div class="progress">
+        <div class="top"><strong>Rope for those kits</strong><span class="note" id="ropenote">0 of 120 m</span></div>
+        <div class="track"><div class="fill rope" id="ropebar"></div></div>
+      </div>
+    </section>
+  </div>
+
+  <section class="box" aria-labelledby="invh">
+    <h2 id="invh">Inventory</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Logged</th><th>Cable</th><th>Length × pcs</th><th>Route</th><th>Yield</th><th>Depot</th><th></th></tr></thead>
+        <tbody id="rows"><tr><td colspan="7" class="empty">No offcuts logged yet. Add the first one with the form above.</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <p class="note">Strand counts and diameters are typical values per size and vary by manufacturer. A panel counts 40 m of strand sticks (1 m and 2 m). Pieces of 25 m and over are flagged for grid reuse first. All figures are estimates to check against real offcuts.</p>
+</div>
+
+<script>
+(function(){
+  // cores, strands per core, strand diameter (mm), cross-section (mm²); use: "mesh" | "rope" | "tie" | "slat"
+  var TYPES=[
+    {g:"XS · 1.5–2.5 mm² copper",n:"(N)YM 2×1.5 – 5×2.5 Cu",c:4,s:1,d:1.6,x:2,use:"tie"},
+    {g:"XS · 1.5–2.5 mm² copper",n:"H07V-U / H07V2-K 1×1.5–2.5 Cu",c:1,s:1,d:1.6,x:2,use:"tie"},
+    {g:"XS · 1.5–2.5 mm² copper",n:"YSLY / YSLYCY control cable Cu",c:5,s:1,d:1.4,x:1.5,use:"tie"},
+    {g:"S · 4–35 mm² copper",n:"NYY-J 3×2.5 – 5×4 Cu",c:4,s:1,d:2.0,x:3,use:"tie"},
+    {g:"S · 4–35 mm² copper",n:"NYY-J / (N)YM 4×6 – 5×10 Cu",c:4,s:1,d:3.2,x:8,use:"tie"},
+    {g:"S · 4–35 mm² copper",n:"H07V-K 1×16 – 1×35 Cu (flexible)",c:1,s:1,d:0,x:25,use:"tie"},
+    {g:"M · 16–95 mm² aluminium",n:"AMKA 1×16+25 / 3×16+25",c:4,s:7,d:1.9,x:16,use:"rope"},
+    {g:"M · 16–95 mm² aluminium",n:"AMKA 3×35+50",c:4,s:7,d:2.7,x:35,use:"rope"},
+    {g:"M · 16–95 mm² aluminium",n:"AMKA 3×70+95",c:4,s:12,d:2.9,x:70,use:"rope"},
+    {g:"M · 16–95 mm² aluminium",n:"AMKA dismantled (any size)",c:4,s:7,d:2.5,x:35,use:"rope"},
+    {g:"M · 16–95 mm² aluminium",n:"AXMK / AXMK-PE / AXPK-PE 4×16 – 4×35",c:4,s:1,d:6,x:25,use:"slat"},
+    {g:"M · 16–95 mm² aluminium",n:"AXMK / AXMK-PE / AXPK-PE 4×70 – 4×95",c:4,s:14,d:2.8,x:85,use:"mesh"},
+    {g:"M · 16–95 mm² aluminium",n:"AXLJ / AXLJ-F TT / AXCEL / AHXAMK-W 3×1×50",c:3,s:7,d:3.0,x:50,use:"mesh"},
+    {g:"M · 16–95 mm² aluminium",n:"AXLJ / AXLJ-F TT / AXCEL / AHXAMK-W 3×1×95",c:3,s:19,d:2.5,x:95,use:"mesh"},
+    {g:"M · 16–95 mm² aluminium",n:"AXQJ-TT 1×50",c:1,s:7,d:3.0,x:50,use:"mesh"},
+    {g:"L · 120–240 mm² aluminium",n:"AHXCMK-WTC 3×120",c:3,s:19,d:2.85,x:120,use:"mesh"},
+    {g:"L · 120–240 mm² aluminium",n:"AXLJ / AXLJ-TTCL / AXCEL / AHXAMK-W / AHXCMK-WTC 3×150",c:3,s:19,d:3.2,x:150,use:"mesh"},
+    {g:"L · 120–240 mm² aluminium",n:"AXLJ / AXLJ-TTCL / AXCEL / AHXAMK-W / AHXCMK-WTC 3×240",c:3,s:37,d:2.9,x:240,use:"mesh"},
+    {g:"L · 120–240 mm² aluminium",n:"AXMK / AXPK 4×150",c:4,s:18,d:3.2,x:150,use:"mesh"},
+    {g:"L · 120–240 mm² aluminium",n:"AXMK / AXPK 4×240",c:4,s:30,d:3.2,x:240,use:"mesh"},
+    {g:"L · 120–240 mm² aluminium",n:"AXQJ-TT / AXLJ-F TT 1×120–1×240",c:1,s:37,d:2.9,x:240,use:"mesh"},
+    {g:"L · 120–240 mm² aluminium",n:"TSLE / XMK / XMK-PE / XPK-PLUS 1×240",c:1,s:37,d:2.9,x:240,use:"mesh"},
+    {g:"L · 120–240 mm² aluminium",n:"AMKA 3×120+95",c:4,s:19,d:2.8,x:120,use:"rope"},
+    {g:"XL · 630 mm² aluminium",n:"AXLJ-F TT 1×630",c:1,s:61,d:3.6,x:630,use:"mesh"},
+    {g:"Not sure",n:"Unknown type: workshop will sort it",c:0,s:0,d:0,x:0,use:"unknown"}
+  ];
+  var GRID_MIN=25, PANEL_M=40, KIT_PANELS=180, KIT_ROPE=120;
+  var $=function(id){return document.getElementById(id)};
+  var sel=$("type"), groups={};
+  TYPES.forEach(function(t,i){ if(!groups[t.g]){groups[t.g]=document.createElement("optgroup");groups[t.g].label=t.g;sel.appendChild(groups[t.g]);}
+    var o=document.createElement("option");o.value=String(i);o.textContent=t.n;groups[t.g].appendChild(o);});
+  var ph=document.createElement("option");ph.value="";ph.textContent="Choose the type on the sheath…";ph.disabled=true;ph.selected=true;sel.insertBefore(ph,sel.firstChild);
+
+  function fmt(n,dp){return Number(n).toLocaleString("en-GB",{maximumFractionDigits:dp==null?1:dp,minimumFractionDigits:0})}
+  // what one logged entry becomes
+  function route(t,len,pcs){
+    var r={kind:"",label:"",detail:"",panels:0,slats:0,rope:0,ties:0,grid:0};
+    if(!t||!(len>0)) return null;
+    pcs=Math.max(1,Math.round(pcs||1));
+    var thick=t.x>=150;
+    if(t.use==="unknown"){r.kind="tie";r.label="Workshop sorts";r.detail="Put it in the unsorted bin. The workshop reads the type and re-logs it.";return r;}
+    if(len>=GRID_MIN && (t.use==="mesh"||t.use==="rope")){r.kind="grid";r.label="Grid first";r.grid=pcs;r.detail="Long enough for a real grid job. Offer it back to Sadales tīkls planning before cutting.";return r;}
+    if(t.use==="tie"){r.kind="tie";r.label="Ties and lashing";r.ties=len*pcs*t.c;r.detail="Thin copper: strip it and use the wire for ties and node twists. Inside guarded sites only.";return r;}
+    if(t.use==="rope"){
+      if(len>=5){r.kind="rope";r.label="Rope (whole)";r.rope=len*pcs;r.detail="Keep it whole. Hang it on the posts as tension and edge rope with its own line clamps.";return r;}
+    }
+    if(t.use==="slat"||(thick&&len<1)){
+      var bars=Math.floor(len/0.9)||1;r.kind="slat";r.label="Slat bars";r.slats=bars*t.c*pcs;
+      r.detail="Thick conductor: cut into bars of about 0.9 m for slat panels in front of the radiators.";return r;
+    }
+    // stripped strands cut into 2 m and 1 m sticks; leftovers become rings or ties
+    var n2=Math.floor(len/2), rest=len-2*n2, n1=Math.floor(rest), left=rest-n1;
+    var strands=t.c*t.s*pcs, stickM=(2*n2+n1)*strands;
+    r.kind="mesh";r.label="Mesh";r.panels=stickM/PANEL_M;
+    var parts=[];if(n2)parts.push(n2+" × 2 m");if(n1)parts.push(n1+" × 1 m");
+    r.detail="Strip and unwind: "+fmt(strands,0)+" strands of "+t.d+" mm, cut into "+(parts.join(" + ")||"no full sticks")+(left>=0.3?" with a "+fmt(left,2)+" m leftover wound into rings":"")+". About "+fmt(r.panels,1)+" panel(s) of 50 mm mesh.";
+    return r;
+  }
+
+  var rows=[], db=null, col=null, local=false, status=$("status");
+  function setStatus(t,warn){status.textContent=t;status.className="banner"+(warn?" warn":"")}
+
+  function preview(){
+    var t=TYPES[+sel.value], len=parseFloat($("len").value), pcs=parseInt($("pcs").value,10)||1;
+    var r=(sel.value!=="")?route(t,len,pcs):null;
+    $("routetext").innerHTML=r?('<strong>'+r.label+'</strong> · '+r.detail):'Pick a type and a length to see where this piece goes.';
+  }
+  ["change","input"].forEach(function(ev){sel.addEventListener(ev,preview);$("len").addEventListener(ev,preview);$("pcs").addEventListener(ev,preview)});
+  document.querySelectorAll(".chip").forEach(function(b){b.addEventListener("click",function(){$("len").value=b.getAttribute("data-l");preview();$("len").focus()})});
+
+  function render(){
+    var tot={pcs:0,m:0,panels:0,slats:0,rope:0,grid:0};
+    var sorted=rows.slice().sort(function(a,b){return (b.at||0)-(a.at||0)});
+    var tb=$("rows");tb.innerHTML="";
+    if(!sorted.length){tb.innerHTML='<tr><td colspan="7" class="empty">No offcuts logged yet. Add the first one with the form above.</td></tr>';}
+    sorted.forEach(function(e){
+      var t=TYPES[e.ti]; if(!t) return;
+      var r=route(t,e.len,e.pcs)||{kind:"tie",label:"?",panels:0,slats:0,rope:0,grid:0};
+      tot.pcs+=e.pcs;tot.m+=e.len*e.pcs;tot.panels+=r.panels;tot.slats+=r.slats;tot.rope+=r.rope;tot.grid+=r.grid;
+      var y=r.kind==="mesh"?fmt(r.panels,1)+" panels":r.kind==="slat"?r.slats+" bars":r.kind==="rope"?fmt(r.rope)+" m rope":r.kind==="grid"?"to grid":"ties";
+      var tr=document.createElement("tr");
+      var d=new Date(e.at||0);
+      tr.innerHTML='<td class="num"></td><td></td><td class="num"></td><td><span class="pill p-'+r.kind+'"></span></td><td class="num"></td><td></td><td><button class="del" type="button">Remove</button></td>';
+      tr.children[0].textContent=isNaN(d)?"":d.toLocaleDateString("en-GB",{day:"2-digit",month:"short"})+" "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+      tr.children[1].textContent=t.n;
+      tr.children[2].textContent=fmt(e.len,2)+" m × "+e.pcs;
+      tr.children[3].firstChild.textContent=r.label;
+      tr.children[4].textContent=y;
+      tr.children[5].textContent=e.depot||"—";
+      tr.querySelector(".del").addEventListener("click",function(){removeEntry(e.id)});
+      tb.appendChild(tr);
+    });
+    $("t-entries").textContent=fmt(tot.pcs,0);
+    $("t-metres").textContent=fmt(tot.m)+" m";
+    $("t-panels").textContent=fmt(tot.panels,0);
+    $("t-slats").textContent=fmt(tot.slats,0);
+    $("t-rope").textContent=fmt(tot.rope,0)+" m";
+    $("t-grid").textContent=fmt(tot.grid,0);
+    var kits=tot.panels/KIT_PANELS, whole=Math.floor(kits), part=kits-whole;
+    $("kitnote").textContent=whole>0?(whole+" full kit"+(whole>1?"s":"")+" + "+Math.round(part*100)+"% of the next"):(Math.round(part*100)+"% of the first kit");
+    $("kitbar").style.width=Math.min(100,part*100)+"%";
+    var ropeNeed=KIT_ROPE*Math.max(1,Math.ceil(kits||1));
+    $("ropenote").textContent=fmt(tot.rope,0)+" of "+ropeNeed+" m";
+    $("ropebar").style.width=Math.min(100,tot.rope/ropeNeed*100)+"%";
+  }
+
+  function rowsFrom(snap){
+    var arr=snap&&(snap.docs||snap.items||snap); if(!Array.isArray(arr)) return [];
+    return arr.map(function(d){var v=typeof d.data==="function"?d.data():(d.data||d);return {id:d.id||v.id,ti:+v.ti,len:+v.len,pcs:+v.pcs||1,depot:v.depot||"",at:+v.at||0}}).filter(function(e){return e.len>0&&TYPES[e.ti]});
+  }
+  function saveLocal(){try{localStorage.setItem("offcuts",JSON.stringify(rows))}catch(e){}}
+  function startLocal(msg){
+    local=true;setStatus(msg,true);
+    try{rows=JSON.parse(localStorage.getItem("offcuts")||"[]")}catch(e){rows=[]}
+    render();
+  }
+
+  function addEntry(e){
+    if(local){rows.push(e);saveLocal();render();return Promise.resolve();}
+    return col.doc(e.id).set({ti:e.ti,len:e.len,pcs:e.pcs,depot:e.depot,at:e.at});
+  }
+  function removeEntry(id){
+    if(local){rows=rows.filter(function(r){return r.id!==id});saveLocal();render();return;}
+    col.doc(id).delete().catch(function(){setStatus("Could not remove that entry. You may not have permission to edit this inventory.",true)});
+  }
+
+  $("form").addEventListener("submit",function(ev){
+    ev.preventDefault();
+    var msg=$("formmsg");
+    if(sel.value===""){msg.textContent="Choose the cable type first.";sel.focus();return}
+    var len=parseFloat($("len").value);
+    if(!(len>0)){msg.textContent="Enter the length in metres, for example 3.5.";$("len").focus();return}
+    var pcs=Math.max(1,parseInt($("pcs").value,10)||1);
+    var e={id:"o"+Date.now().toString(36)+Math.random().toString(36).slice(2,7),ti:+sel.value,len:len,pcs:pcs,depot:$("depot").value.trim().slice(0,60),at:Date.now()};
+    $("add").disabled=true;
+    addEntry(e).then(function(){msg.textContent="Added: "+TYPES[e.ti].n+", "+fmt(len,2)+" m × "+pcs+".";$("len").value="";$("pcs").value="1";preview();$("len").focus()})
+      .catch(function(){msg.textContent="Not saved. You may only have view access to this inventory."})
+      .then(function(){$("add").disabled=false});
+  });
+
+  render();
+  var timer=setTimeout(function(){if(!db)startLocal("Shared inventory not reachable. Entries are saved in this browser only.")},10000);
+  if(window.claude&&claude.use){
+    claude.use("db").then(function(d){
+      if(!d){clearTimeout(timer);startLocal("Sign in to share the inventory with the team. For now, entries are saved in this browser only.");return}
+      db=d;col=db.collection("offcuts");
+      var first=true;
+      col.onSnapshot(function(snap){
+        if(first){clearTimeout(timer);first=false;setStatus("Shared inventory: everyone on the team sees the same stock.")}
+        rows=rowsFrom(snap);render();
+      },function(){clearTimeout(timer);startLocal("Could not read the shared inventory. Entries are saved in this browser only.")});
+    }).catch(function(){clearTimeout(timer);startLocal("Shared inventory not available. Entries are saved in this browser only.")});
+  } else { clearTimeout(timer); startLocal("Opened outside Claude. Entries are saved in this browser only."); }
+})();
+</script>

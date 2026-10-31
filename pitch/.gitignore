@@ -1,0 +1,7 @@
+node_modules
+dist
+.cand
+video/node_modules
+video/out
+pdf-pages
+tsconfig.tsbuildinfo
