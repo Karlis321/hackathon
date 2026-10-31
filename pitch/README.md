@@ -3,6 +3,7 @@
 A 3-minute interactive pitch for the Sadales tīkls challenge.
 
 ## Present it
+- **Online:** https://karlis321.github.io/hackathon/ (GitHub Pages, from the `gh-pages` branch). To update it after `npm run build`, copy `dist/` into `.deploy/`, commit there and push to `gh-pages`.
 - **From a USB stick or any folder:** open `dist/index.html` in Chrome or Edge. The deck is fully offline. Keep `dist/` together, because the photos, logos and video sit next to `index.html`.
 - **Backup:** `matrica-pitch.pdf`, all 10 pages including the appendix.
 
