@@ -104,6 +104,7 @@ export const SOURCES = [
   ["Anti-drone net mesh sizes and twine ratings", "https://ahcebrian.com/en/blog/passive-anti-drone-nets-explained/"],
   ["EU CER Directive, Latvian transposition", "https://www.iem.gov.lv/en/article/government-strengthens-critical-infrastructure-resilience-and-national-security"],
   ["Baltic defence and dual-use investors", "https://www.vestbee.com/insights/articles/europes-defence-and-dual-use-investors"],
+  ["KEM: unified approach to energy critical infrastructure security (Cabinet pilot 22 Sep 2026; AST €18.5M EU funding)", "https://lvportals.lv/dienaskartiba/394848-kem-tiks-ieviesta-vienota-pieeja-energetikas-kritiskas-infrastrukturas-drosibai-2026"],
   ["Full research with all sources", "research/grid-shield.html"],
 ];
 

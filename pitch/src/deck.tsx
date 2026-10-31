@@ -56,9 +56,9 @@ function Title() {
     <div className="slide" style={{ justifyContent: "center" }}>
       <div style={{ position: "absolute", right: 60, top: 120, width: 760, lineHeight: 0, border: "1px solid var(--line)" }}><ProductCage width={760} height={535} callouts={false} /></div>
       <motion.img {...rise(0)} src={asset("brand/matrica-logo.svg")} alt="Matrica" style={{ width: 520, marginBottom: 56 }} />
-      <motion.h1 {...rise(0.15)} style={{ maxWidth: 900, fontSize: 120 }}>Tīkls no tīkla.</motion.h1>
+      <motion.h1 {...rise(0.15)} style={{ maxWidth: 900, fontSize: 100 }}>Matrica: drone nets from <span className="accent">grid surplus</span>.</motion.h1>
       <motion.p {...rise(0.3)} className="lead" style={{ marginTop: 30, maxWidth: 860 }}>
-        A drone net from the grid's own surplus. In Latvian, <i>tīkls</i> means both <b className="accent">net</b> and <b className="accent">grid</b>.
+        Tīkls no tīkla: in Latvian, <i>tīkls</i> means both <b className="accent">net</b> and <b className="accent">grid</b>.
       </motion.p>
       <motion.div {...rise(0.4)} style={{ marginTop: 40 }}><Takes /></motion.div>
       <motion.div {...rise(0.5)} style={{ marginTop: 32, display: "flex", gap: 16 }}>
@@ -294,7 +294,7 @@ function Clients() {
     <div className="slide" style={{ paddingTop: 76 }}>
       <div className="eyebrow">Clients · our proposal</div>
       <motion.h2 {...rise(0)} style={{ fontSize: 58 }}>Who uses it, and why they'd pay.</motion.h2>
-      <div className="row" style={{ marginTop: 32, gap: 24, alignItems: "stretch" }}>
+      <div className="row" style={{ marginTop: 24, gap: 24, alignItems: "stretch" }}>
         {cols.map((c, i) => (
           <motion.div {...rise(0.1 + i * 0.12)} className="card grow" key={c.h} style={{ borderTop: `4px solid ${i === 0 ? "var(--accent)" : "var(--steel)"}`, display: "flex", flexDirection: "column", gap: 16 }}>
             <h3 style={{ fontSize: 34, color: i === 0 ? "var(--accent)" : "var(--fg)" }}>{c.h}</h3>
@@ -305,10 +305,17 @@ function Clients() {
           </motion.div>
         ))}
       </div>
-      <motion.div {...rise(0.5)} className="card" style={{ marginTop: 24 }}>
-        <p style={{ fontSize: 24, lineHeight: 1.4 }}><b className="accent">Why they pay:</b> material from their own surplus, crews that already know the work, a metal net propellers can't cut, and a resilience measure the EU CER Directive asks critical entities to take.</p>
-      </motion.div>
-      <p className="small" style={{ marginTop: 12, fontSize: 15 }}>The team summary names no client; this is our proposal. No agreements yet. Logos belong to their owners.</p>
+      <div className="row" style={{ marginTop: 24, gap: 24 }}>
+        <motion.div {...rise(0.5)} className="card grow">
+          <div className="mono small" style={{ letterSpacing: ".1em", color: "var(--accent)" }}>WHY THEY PAY</div>
+          <p style={{ fontSize: 22, lineHeight: 1.4, marginTop: 8 }}>Material from their own surplus, crews that already know the work, a metal net propellers can't cut, and a resilience measure the EU CER Directive asks critical entities to take.</p>
+        </motion.div>
+        <motion.div {...rise(0.6)} className="card grow" style={{ borderColor: "var(--accent)", background: "var(--accent-soft)" }}>
+          <div className="mono small" style={{ letterSpacing: ".1em", color: "var(--accent)" }}>WHY NOW · 22 SEP 2026</div>
+          <p style={{ fontSize: 22, lineHeight: 1.4, marginTop: 8 }}>The Cabinet approved a pilot with energy companies to protect energy infrastructure from drones: shared requirements, joint procurement, Latvian solutions welcome. AST gets <b className="accent">€18.5M</b> in EU funding for perimeter and counter-drone protection.</p>
+        </motion.div>
+      </div>
+      <p className="small" style={{ marginTop: 12, fontSize: 15 }}>The team summary names no client; this is our proposal. No agreements yet. Logos belong to their owners. "Why now": LV portāls, KEM, 2026.</p>
     </div>
   );
 }
@@ -422,7 +429,7 @@ function Appendix() {
 
 export const SLIDES: SlideDef[] = [
   { id: "title", title: "Title", seconds: 8, render: () => <Title />,
-    notes: "Hi, we're Matrica. Tīkls no tīkla: a drone net from the grid's own surplus. In Latvian, tīkls means both net and grid." },
+    notes: "Hi, we're Matrica. We make drone nets from grid surplus. We call it Tīkls no tīkla: in Latvian, tīkls means both net and grid." },
   { id: "problem", title: "Three problems", seconds: 20, render: () => <Problem />,
     notes: "Three problems meet in one place. Surplus: AMKA cable, wooden poles and concrete stubs pile up. Drones: substations stand in the open. Storms: branches and debris come down on the equipment." },
   { id: "before", title: "Before", seconds: 8, render: () => <Before />,
@@ -442,7 +449,7 @@ export const SLIDES: SlideDef[] = [
   { id: "numbers", title: "The numbers", seconds: 18, render: () => <Numbers />,
     notes: "From the Sadales tīkls stock sheet: enough stubs and poles for hundreds of sites, but AMKA for just one net. Cable is the bottleneck, so we start with one site. It holds: a drone brings about 450 joules; one strand holds 800 newtons. We'll prove it with a sandbag test." },
   { id: "clients", title: "Clients", seconds: 12, render: () => <Clients />,
-    notes: "Who uses it: Sadales tīkls first, as pilot partner and material owner. Then AST, Latvenergo, gas and broadcast operators, and the Baltic grids. They pay because the material is their own surplus and their crews already know the work." },
+    notes: "Who uses it: Sadales tīkls first, as pilot partner and material owner. Then AST, Latvenergo, gas and broadcast operators, and the Baltic grids. And the timing is right: in September the government approved a pilot with energy companies to protect them from drones, open to Latvian solutions, and AST is getting 18.5 million euros in EU funding for exactly this." },
   { id: "practical", title: "Practical", seconds: 10, render: () => <Practical />,
     notes: "It's earthed, clear of live parts, and far enough that a blast can't reach equipment. It stops small drones, not large attack drones, and wet snow is a risk. So: one site, test samples and a sandbag test first." },
   { id: "partners", title: "Partners", seconds: 7, render: () => <Partners />,
