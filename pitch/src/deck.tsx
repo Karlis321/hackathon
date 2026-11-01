@@ -283,6 +283,71 @@ function Numbers() {
   );
 }
 
+// Budget: initial capex and one pilot site. Estimates from public prices (Oct 2026), labour at Latvian rates.
+const CAPEX: [string, string, string][] = [
+  ["Semi-automatic chain-link machine", "€8–12k", "$4–8k ex-factory + shipping, VAT, set-up for aluminium wire"],
+  ["Cable stripping machine + hand tools", "€1.5–3k", "for AMKA cores"],
+  ["Strand unwinding and straightening rig", "€0.5–1.5k", "reel stands, straightener, workbench"],
+  ["Test rig: panel frame + 10 kg sandbag drop", "€0.5–1k", "450 J impact test"],
+  ["Safety gear, earthing tester, tools", "€1–2k", ""],
+];
+const PILOT: [string, string, string][] = [
+  ["Reused stubs, poles, AMKA", "€0", "Sadales tīkls surplus (scrap value forgone ~€1k)"],
+  ["Bought hardware", "€2.5–4k", "steel bands, guys + 4 anchors, clamps, lacing wire, gate frame, gravel"],
+  ["Earthing set", "€0.4–0.8k", "conductor, clamps, rod, measurement"],
+  ["Workshop labour, ~70–100 h", "€1–2k", "sort, strip, unwind, weave ~390 m² at €15–20/h incl. tax"],
+  ["Site crew 3 × 4 days", "€1.5–2k", "plus crane truck ~2 days (€39–45/h) and auger"],
+  ["Crane, auger, transport", "€1–1.5k", ""],
+  ["Engineering and safety check", "€2–4k", "structure, clearance, earthing, permit"],
+  ["Contingency 15%", "€1.3–2.1k", ""],
+];
+
+function Budget() {
+  const table = (rows: [string, string, string][]) => (
+    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 19 }}>
+      <tbody>
+        {rows.map(([a, b, c]) => (
+          <tr key={a} style={{ borderBottom: "1px solid var(--line)" }}>
+            <td style={{ padding: "7px 8px 7px 0" }}>{a}{c && <div className="muted" style={{ fontSize: 14 }}>{c}</div>}</td>
+            <td className="mono" style={{ padding: "7px 0", textAlign: "right", whiteSpace: "nowrap", verticalAlign: "top" }}>{b}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+  return (
+    <div className="slide" style={{ paddingTop: 70 }}>
+      <div className="eyebrow">Budget · estimates</div>
+      <motion.h2 {...rise(0)} style={{ fontSize: 54 }}>€22–35k to prove it on one substation.</motion.h2>
+      <div className="row" style={{ marginTop: 20, gap: 24, alignItems: "stretch" }}>
+        <motion.div {...rise(0.1)} className="card grow" style={{ borderTop: "4px solid var(--steel)" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+            <h3 style={{ fontSize: 30 }}>Initial capex · workshop</h3>
+            <span className="big-num" style={{ fontSize: 46, color: "var(--steel)" }}>€12–19k</span>
+          </div>
+          <div style={{ marginTop: 10 }}>{table(CAPEX)}</div>
+          <p className="muted" style={{ fontSize: 16, marginTop: 10 }}>One-off. The same workshop serves every later site.</p>
+        </motion.div>
+        <motion.div {...rise(0.2)} className="card grow" style={{ borderTop: "4px solid var(--accent)" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+            <h3 style={{ fontSize: 30 }}>Pilot site · one kiosk substation</h3>
+            <span className="big-num" style={{ fontSize: 46, color: "var(--accent)" }}>€10–16k</span>
+          </div>
+          <div style={{ marginTop: 10 }}>{table(PILOT)}</div>
+        </motion.div>
+      </div>
+      <motion.div {...rise(0.35)} className="row" style={{ marginTop: 18, gap: 16, alignItems: "center", flexWrap: "wrap" }}>
+        <span className="mono small" style={{ letterSpacing: ".1em" }}>TO START</span>
+        <span className="chip">Climathon prize €1,500</span>
+        <span className="chip">Sadales tīkls pilot contract</span>
+        <span className="chip">State drone-protection pilot (KEM)</span>
+        <span className="chip">LIFE / dual-use grants</span>
+        <span className="small" style={{ fontSize: 15 }}>Prices: supplier listings, LV wage and crane-rental data, Oct 2026. To confirm with quotes.</span>
+      </motion.div>
+    </div>
+  );
+}
+
 function Clients() {
   const pick = (names: string[]) => names.map((n) => COMPANIES.find((c) => c.name === n)).filter(Boolean) as typeof COMPANIES;
   const cols: { h: string; why: string; names: string[] }[] = [
@@ -428,7 +493,7 @@ function Appendix() {
 }
 
 export const SLIDES: SlideDef[] = [
-  { id: "title", title: "Title", seconds: 8, render: () => <Title />,
+  { id: "title", title: "Title", seconds: 7, render: () => <Title />,
     notes: "Hi, we're Matrica. We make drone nets from grid surplus. We call it Tīkls no tīkla: in Latvian, tīkls means both net and grid." },
   { id: "problem", title: "Three problems", seconds: 20, render: () => <Problem />,
     notes: "Three problems meet in one place. Surplus: AMKA cable, wooden poles and concrete stubs pile up. Drones: substations stand in the open. Storms: branches and debris come down on the equipment." },
@@ -436,18 +501,20 @@ export const SLIDES: SlideDef[] = [
     notes: "This is a real substation today. Nothing stands between a drone and the transformer." },
   { id: "after", title: "After", seconds: 11, render: () => <After />,
     notes: "And this is the idea on the same substation: masts from reused poles and a woven AMKA net." },
-  { id: "product", title: "The product", seconds: 14, render: () => <Product />,
+  { id: "product", title: "The product", seconds: 12, render: () => <Product />,
     notes: "Here's the structure. Six masts: old wooden poles banded to concrete stubs. AMKA cable as the top ropes. A wall net woven from AMKA strands, about nine metres high, and a roof net against diving drones. A gate for service vehicles, guy wires at every corner. A ten by eight metre enclosure around a kiosk substation." },
-  { id: "weather", title: "Storms", seconds: 14, render: () => <Weather />,
+  { id: "weather", title: "Storms", seconds: 10, render: () => <Weather />,
     notes: "The net also takes the storm. Today a falling tree hits the equipment. With guyed masts and a metal net, branches are caught first." },
   { id: "process", title: "Process", seconds: 22, render: () => <Process />,
     notes: "In the workshop: sort the AMKA, keep long pieces for ropes, unwind each core into two-millimetre strands, weave fifty-millimetre mesh. On site: set the stub two metres into the ground and band the pole on top, exactly as crews do every day. Then ropes, net, earthing." },
   { id: "video", title: "Video", seconds: 12, render: () => <Video />,
     notes: "Here's what happens when a drone hits. [Let it play.] It detonates on the net. The masts hold and the substation is untouched." },
-  { id: "where", title: "Where", seconds: 11, render: () => <Where />,
+  { id: "where", title: "Where", seconds: 8, render: () => <Where />,
     notes: "After the pilot, these are the critical objects in Latvia the idea can grow to, starting in Latgale near the border." },
   { id: "numbers", title: "The numbers", seconds: 18, render: () => <Numbers />,
     notes: "From the Sadales tīkls stock sheet: enough stubs and poles for hundreds of sites, but AMKA for just one net. Cable is the bottleneck, so we start with one site. It holds: a drone brings about 450 joules; one strand holds 800 newtons. We'll prove it with a sandbag test." },
+  { id: "budget", title: "Budget", seconds: 10, render: () => <Budget />,
+    notes: "To prove it we need twenty-two to thirty-five thousand euros: twelve to nineteen thousand for the workshop, mainly a chain-link machine, and ten to sixteen thousand for the first substation. The material itself is free: it's the grid's surplus." },
   { id: "clients", title: "Clients", seconds: 12, render: () => <Clients />,
     notes: "Who uses it: Sadales tīkls first, as pilot partner and material owner. Then AST, Latvenergo, gas and broadcast operators, and the Baltic grids. And the timing is right: in September the government approved a pilot with energy companies to protect them from drones, open to Latvian solutions, and AST is getting 18.5 million euros in EU funding for exactly this." },
   { id: "practical", title: "Practical", seconds: 10, render: () => <Practical />,
