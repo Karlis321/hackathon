@@ -5,7 +5,8 @@
 |---|---|---|---|
 | Problem | `public/img/before-cable-scrap.jpg` | GeorgHH, CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Elektrokabelschrott_0109.jpg |
 | Before (slide 3) | `public/img/before-substation.jpg` | Tiia Monto, CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Milovice_-_transformer_station.jpg |
-| After (slide 4) | `public/img/after-substation-real.jpg` | AI edit of the photo above with Qwen-Image-Edit (Hugging Face demo Qwen/Qwen-Image-Edit, `scripts/qwen_edit.py`). Shared under CC BY-SA 4.0. | same |
+| Earlier after image | `public/img/after-substation-real.jpg` | AI edit of the photo above with Qwen-Image-Edit (Hugging Face demo Qwen/Qwen-Image-Edit, `scripts/qwen_edit.py`). Shared under CC BY-SA 4.0. | same |
+| After (slide 4) | `public/img/after-substation-cage.jpg` | Full cage drawn by Matrica over the photo above (`scripts/make_cage_photo.py`). Shared under CC BY-SA 4.0. | same |
 | Unused backup | `public/img/after-substation-shield.jpg` | Hand-drawn shield over the same photo (`scripts/make_after.py`). | same |
 | Problem | `public/img/transformer-110-20kv.jpg` | Kreuzschnabel, CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Transformer_110_kV_20_kV.jpg |
 | Problem, Storms | `public/img/storm-before.jpg` | Arlington County, CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Storm_Downed_power_lines_and_trees_from_Storm_Sandy_(8138919297).jpg |

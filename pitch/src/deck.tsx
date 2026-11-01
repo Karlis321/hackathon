@@ -14,7 +14,7 @@ const rise = (d = 0) => STATIC ? { initial: false as const } : ({ initial: { opa
 // Photos. The "after" images show the shield on the same real photo (visualisation, labelled on the slide).
 export const IMG = {
   subBefore: "img/before-substation.jpg",
-  subAfter: "img/after-substation-real.jpg", // generated with Qwen-Image-Edit from the before photo
+  subAfter: "img/after-substation-cage.jpg", // full cage drawn over the before photo (scripts/make_cage_photo.py)
   stormBefore: "img/storm-before.jpg",
   stormAfter: null as string | null,
   scrap: "img/before-cable-scrap.jpg",
@@ -93,24 +93,24 @@ function Problem() {
   );
 }
 
-function FullPhoto({ src, tag, tagColor, line, sub, credit }: { src: string; tag: string; tagColor: string; line: string; sub?: string; credit: string }) {
+function FullPhoto({ src, tag, tagColor, line, sub, credit, corner = "tl" }: { src: string; tag: string; tagColor: string; line: string; sub?: string; credit: string; corner?: "tl" | "br" }) {
   return (
     <div className="slide" style={{ padding: 0 }}>
       <img src={asset(src)} alt={line} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-      <div style={{ position: "absolute", left: 0, right: 0, top: 0, padding: "80px 120px 160px", background: "linear-gradient(rgba(8,10,12,.92), transparent)" }}>
+      <div style={{ position: "absolute", ...(corner === "br" ? { right: 60, bottom: 70, maxWidth: 640 } : { left: 80, top: 60, maxWidth: 1180 }), padding: "28px 40px 32px", background: "rgba(8,10,12,.84)", border: "1px solid var(--line)" }}>
         <motion.div {...rise(0)} className="tag" style={{ color: tagColor, fontSize: 22 }}>{tag}</motion.div>
-        <motion.h2 {...rise(0.1)} style={{ marginTop: 18, fontSize: 72, maxWidth: 1500 }}>{line}</motion.h2>
-        {sub && <motion.p {...rise(0.2)} className="lead" style={{ marginTop: 14, fontSize: 28 }}>{sub}</motion.p>}
+        <motion.h2 {...rise(0.1)} style={{ marginTop: 16, fontSize: corner === "br" ? 46 : 64 }}>{line}</motion.h2>
+        {sub && <motion.p {...rise(0.2)} style={{ marginTop: 14, fontSize: corner === "br" ? 22 : 26, color: "var(--fg)", lineHeight: 1.35 }}>{sub}</motion.p>}
       </div>
-      <span className="credit" style={{ right: 12, bottom: 40 }}>{credit}</span>
+      <span className="credit" style={{ right: 12, top: 12 }}>{credit}</span>
     </div>
   );
 }
 
 const Before = () => <FullPhoto src={IMG.subBefore} tag="Before" tagColor="var(--risk)" line="Today: transformers stand unprotected." credit="Photo: Tiia Monto, CC BY-SA 4.0" />;
 const After = () => (
-  <FullPhoto src={IMG.subAfter} tag="After · with Matrica" tagColor="var(--accent)" line="Masts from reused poles + a woven AMKA net."
-    sub="Same real substation; the net is an AI visualisation (Qwen-Image-Edit). The full structure is on the next slide." credit="Photo: Tiia Monto, CC BY-SA 4.0 · AI edit: Qwen-Image-Edit" />
+  <FullPhoto src={IMG.subAfter} tag="After · with Matrica" tagColor="var(--accent)" line="The whole substation inside a net from the grid."
+    sub="Six masts from reused poles, woven AMKA net on every side and over the top. Same real photo; the cage is a visualisation." credit="Photo: Tiia Monto, CC BY-SA 4.0 · cage visualisation: Matrica" corner="br" />
 );
 
 function Product() {
@@ -206,7 +206,7 @@ function Process() {
         <div className="lane-h"><span>ON<br />SITE</span></div>
         {card("04", "Set the masts", "Stub ~2.2 m into the ground, wooden pole banded on top. Grid crews do this every day.", <MastBase width="100%" height="100%" />, 0.34)}
         {card("05", "Hang ropes and net", "AMKA around the tops and across the roof, guys at the corners, net laced on.", <ProductCage width={600} height={196} callouts={false} preserve="xMidYMid slice" />, 0.42)}
-        {card("06", "Earth and inspect", "Bond the net to the site's earth. Check it after storms and icing.", img(IMG.subAfter, "35% 70%"), 0.5)}
+        {card("06", "Earth and inspect", "Bond the net to the site's earth. Check it after storms and icing.", img(IMG.subAfter, "30% 60%"), 0.5)}
       </div>
       <p className="small" style={{ marginTop: 12, fontSize: 15 }}>Photos: GeorgHH (CC BY-SA 4.0); Tiia Monto (CC BY-SA 4.0) with AI visualisation. Drawings: Matrica, after the team summary.</p>
     </div>
